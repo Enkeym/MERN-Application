@@ -1,22 +1,17 @@
-/* eslint-disable react/prop-types */
-import MainProduct from './MainProduct'
+/* eslint-disable react/prop-types */ // Отключение проверки propTypes для этого компонента
 
-const OneProduct = ({ data, body }) => {
-  const filteredGoods =
-    body?.category === ''
-      ? data
-      : data?.filter((item) => item.categoryId === body.category)
+import MainProduct from './MainProduct' // Импорт компонента MainProduct
 
-  return (
-    <>
-      {data?.length !== 0 ? (
-        <MainProduct data={filteredGoods} />
-      ) : (
-        <h1 style={{ color: 'red', textAlign: 'center', margin: '3rem' }}>
-          Product not found!
-        </h1>
-      )}
-    </>
-  )
+/**
+ * Компонент OneProduct просто передает принятые данные в компонент MainProduct.
+ * Здесь нет особых действий или манипуляций с данными.
+ * Используется отключение проверки propTypes для этого компонента.
+ *
+ * @param {object} data - Данные о продукте.
+ * @returns {JSX.Element} - Элемент компонента MainProduct с переданными данными.
+ */
+const OneProduct = ({data}) => {
+  return <MainProduct data={data} /> // Возврат элемента компонента MainProduct с переданными данными
 }
-export default OneProduct
+
+export default OneProduct // Экспорт компонента OneProduct

@@ -1,39 +1,42 @@
-import {useEffect, useState} from 'react'
-import {Button, Form, Modal} from 'react-bootstrap'
-import {useAddCategoriesMutation} from '../../../app/services/category'
-import {useNavigate} from 'react-router-dom'
-import {toast} from 'react-toastify'
-import FormInput from '../../../ui/form/FormInput'
+import {useEffect, useState} from 'react';
+import {Button, Form, Modal} from 'react-bootstrap';
+import {useAddCategoriesMutation} from '../../../app/services/category';
+import {useNavigate} from 'react-router-dom';
+import {toast} from 'react-toastify';
+import FormInput from '../../../ui/form/FormInput';
 
+// Компонент для добавления новой категории
 const AddCategory = () => {
-  const [show, setShow] = useState(false)
-  const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
+  const [show, setShow] = useState(false); // Состояние для отображения модального окна
+  const handleClose = () => setShow(false); // Функция для закрытия модального окна
+  const handleShow = () => setShow(true); // Функция для открытия модального окна
 
-  const [name, setName] = useState('')
-  const [slug, setSlug] = useState('')
+  const [name, setName] = useState(''); // Состояние для имени категории
+  const [slug, setSlug] = useState(''); // Состояние для формирования slug категории
 
   useEffect(() => {
-    setSlug(name.toLowerCase())
-  }, [name])
+    setSlug(name.toLowerCase()); // Формирование slug на основе имени категории
+  }, [name]);
 
-  const [AddCategories] = useAddCategoriesMutation()
-  const navigate = useNavigate()
+  const [addCategories] = useAddCategoriesMutation(); // Хук для добавления категории
+  const navigate = useNavigate(); // Хук для навигации
 
+  // Обработчик добавления новой категории
   const handleAddProducts = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
-      await AddCategories({name, slug}).unwrap()
-      toast.success('Created successfully!')
-      handleClose()
-      setName('')
-      navigate('/products/my')
+      await addCategories({name, slug}).unwrap(); // Вызов мутации для добавления категории
+      toast.success('Created successfully!'); // Уведомление об успешном создании категории
+      handleClose(); // Закрытие модального окна
+      setName(''); // Сброс значения имени категории
+      navigate('/products/my'); // Навигация на страницу продуктов
     } catch (err) {
-      toast.error(err?.data?.message || err.error)
+      toast.error(err?.data?.message || err.error); // Уведомление об ошибке при добавлении категории
     }
-  }
+  };
 
+  // Возвращение компонента для добавления категории
   return (
     <>
       <Button variant='success' onClick={handleShow} className='m-1'>
@@ -68,6 +71,7 @@ const AddCategory = () => {
         </Modal.Body>
       </Modal>
     </>
-  )
-}
-export default AddCategory
+  );
+};
+
+export default AddCategory;

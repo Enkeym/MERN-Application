@@ -4,18 +4,18 @@ import {
   addProducts,
   allProducts,
   editProducts,
+  myProducts,
   productId,
-  removeProducts,
-  searchProduct
+  removeProducts
 } from '../controllers/product.js'
 
 const router = express.Router()
 
 router.get('/', allProducts)
 router.get('/:id', productId)
+router.get('/my/:userId', protect, myProducts)
 router.post('/add', protect, addProducts)
 router.post('/remove/:id', protect, removeProducts)
 router.put('/edit/:id', protect, editProducts)
-router.get('/search/:title', searchProduct)
 
 export default router

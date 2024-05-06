@@ -1,6 +1,6 @@
-import {Form} from 'react-bootstrap'
+import {Form} from 'react-bootstrap';
 
-// eslint-disable-next-line react/prop-types
+// Компонент для отображения текстового поля формы
 const FormInput = ({
   value,
   onChange,
@@ -16,7 +16,9 @@ const FormInput = ({
 }) => {
   return (
     <Form.Group className='mb-3'>
+      {/* Выводим метку поля */}
       <Form.Label>{name}</Form.Label>
+      {/* Создаем текстовое поле */}
       <Form.Control
         type={type}
         placeholder={placeholder}
@@ -31,6 +33,7 @@ const FormInput = ({
         controlId={controlId}
       />
     </Form.Group>
-  )
-}
-export default FormInput
+  );
+};
+
+export default FormInput;

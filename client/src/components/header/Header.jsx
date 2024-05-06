@@ -7,28 +7,32 @@ import {useNavigate} from 'react-router-dom'
 import {logout} from '../../features/authSlice'
 
 const Header = () => {
-  const {userInfo} = useSelector((state) => state.auth)
+  // Получение информации о текущем пользователе из Redux
+  const {userInfo} = useSelector((state) => state.auth);
 
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const [logoutApiCall] = useLogoutMutation()
+  const [logoutApiCall] = useLogoutMutation();
 
+  // Обработчик выхода из учетной записи
   const logoutHandler = async () => {
     try {
-      await logoutApiCall().unwrap()
-      dispatch(logout())
-      navigate('/')
+      // Вызов API для выхода из учетной записи
+      await logoutApiCall().unwrap();
+      // Диспетчеризация действия выхода из учетной записи в Redux
+      dispatch(logout());
+      // Перенаправление на главную страницу
+      navigate('/products');
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
-
+  };
   return (
     <header>
       <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
         <Container>
-          <LinkContainer to='/'>
+          <LinkContainer to='/products'>
             <Navbar.Brand className='d-flex align-items-center gap-1'>
               <FaHome size={25} /> Main
             </Navbar.Brand>

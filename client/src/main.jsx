@@ -15,11 +15,15 @@ import store from './app/store.js'
 import PrivateRoute from './utils/route/PrivateRoute.jsx'
 import {privateRoutes, routes} from './utils/route/routes.jsx'
 
+// Создаем экземпляр BrowserRouter
 const router = createBrowserRouter(
+  // Создаем маршруты из элементов JSX
   createRoutesFromElements(
     <Route path='/' element={<App />}>
-      {/* routes */}
-      <Route index={true} path='/' element={<Home />} />
+      {/* Общедоступные маршруты */}
+      {/* Маршрут для главной страницы */}
+      <Route index={true} path='/products' element={<Home />} />
+      {/* Маппим общедоступные маршруты */}
       {routes.map((route) => {
         return (
           <Route
@@ -30,9 +34,12 @@ const router = createBrowserRouter(
         )
       })}
 
-      {/* Private Routes */}
+      {/* Приватные маршруты */}
+      {/* Обертка для приватных маршрутов */}
       <Route path='' element={<PrivateRoute />}>
+        {/* Добавляем приватные маршруты */}
         <Route path='' element={<PrivateRoute />}>
+          {/* Маппим приватные маршруты */}
           {privateRoutes.map((route) => {
             return (
               <Route
@@ -48,8 +55,10 @@ const router = createBrowserRouter(
   )
 )
 
+// Рендерим приложение
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    {/* Оборачиваем приложение в провайдер Redux и React Router */}
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>

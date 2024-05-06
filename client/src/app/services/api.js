@@ -5,10 +5,11 @@ const baseQuery = fetchBaseQuery({
 })
 
 export function providesList(resultsWithIds, tagType) {
-  return resultsWithIds
+  const currentPageProducts = resultsWithIds.currentPageProducts
+  return currentPageProducts
     ? [
         { type: tagType, id: 'LIST' },
-        ...resultsWithIds.map(({ id }) => ({ type: tagType, id }))
+        ...currentPageProducts.map(({ id }) => ({ type: tagType, id }))
       ]
     : [{ type: tagType, id: 'LIST' }]
 }

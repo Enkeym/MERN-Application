@@ -5,10 +5,12 @@ const CATEGORY_URL = '/api/category'
 export const categoryApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getCategory: builder.query({
-      /* query: (body) =>
-        body ? `${CATEGORY_URL}/${body.category}` : `${CATEGORY_URL}`,
-      providesTags: (result) => providesList(result, 'Categories') */
       query: () => CATEGORY_URL,
+      providesTags: (result) => providesList(result, 'Categories')
+    }),
+
+    getCategoryById: builder.query({
+      query: (body) => `${CATEGORY_URL}/${body.category}/products`,
       providesTags: (result) => providesList(result, 'Categories')
     }),
 
@@ -26,4 +28,8 @@ export const categoryApi = api.injectEndpoints({
   })
 })
 
-export const { useGetCategoryQuery, useAddCategoriesMutation } = categoryApi
+export const {
+  useGetCategoryQuery,
+  useAddCategoriesMutation,
+  useGetCategoryByIdQuery
+} = categoryApi

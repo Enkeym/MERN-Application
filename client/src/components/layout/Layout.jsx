@@ -1,15 +1,16 @@
-import { Col, Container, Row } from 'react-bootstrap'
+import {Col, Container, Row} from 'react-bootstrap';
 
-
-const Layout = ({ children }) => {
+// Компонент макета страницы
+const Layout = ({children}) => {
   return (
-    <Container>
-      <Row className='justify-content-md-center mt-5'>
-        <Col xs={12} md={6} className='card p-5'>
-          {children}
+    <Container> {/* Контейнер для размещения содержимого страницы */}
+      <Row className='justify-content-md-center mt-5'> {/* Строка с выравниванием по центру */}
+        <Col xs={12} md={6} className='card p-5'> {/* Колонка для содержимого страницы */}
+          {children} {/* Дочерние компоненты передаются здесь */}
         </Col>
       </Row>
     </Container>
-  )
-}
-export default Layout
+  );
+};
+
+export default Layout;

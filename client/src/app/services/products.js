@@ -5,17 +5,24 @@ const PRODUCTS_URL = '/api/products'
 export const productsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     allProducts: builder.query({
-      query: (body) =>
-        body.search === ''
-          ? `${PRODUCTS_URL}`
-          : `${PRODUCTS_URL}/search/${body.search}`,
-
+      query: (query) => ({
+        url: `${PRODUCTS_URL}`,
+        params: query
+      }),
       providesTags: (result) => providesList(result, 'Goods')
     }),
     ProductById: builder.query({
       query: (id) => ({
         url: `${PRODUCTS_URL}/${id}`,
         method: 'GET'
+      }),
+      providesTags: (result) =>
+        result ? [result, { type: 'Goods' }] : [{ type: 'Goods' }]
+    }),
+    myProducts: builder.query({
+      query: ({ userId, page, pageSize }) => ({
+        url: `${PRODUCTS_URL}/my/${userId}`,
+        params: { page, pageSize }
       }),
       providesTags: (result) =>
         result ? [result, { type: 'Goods' }] : [{ type: 'Goods' }]
@@ -52,5 +59,6 @@ export const {
   useAddProductMutation,
   useEditProductMutation,
   useProductByIdQuery,
-  useRemoveProductMutation
+  useRemoveProductMutation,
+  useMyProductsQuery
 } = productsApi
