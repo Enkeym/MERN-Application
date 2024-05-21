@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Route,
   RouterProvider
 } from 'react-router-dom'
@@ -20,40 +21,32 @@ const router = createBrowserRouter(
   // Создаем маршруты из элементов JSX
   createRoutesFromElements(
     <Route path='/' element={<App />}>
+      {/* Перенаправление с корневого URL на /products */}
+      <Route index element={<Navigate to="/products" />} />
+
       {/* Общедоступные маршруты */}
-      {/* Маршрут для главной страницы */}
-      <Route index={true} path='/products' element={<Home />} />
-      {/* Маппим общедоступные маршруты */}
-      {routes.map((route) => {
-        return (
+      <Route path='products' element={<Home />} />
+      {routes.map((route) => (
+        <Route
+          key={route.link}
+          path={route.link}
+          element={route.component}
+        />
+      ))}
+
+      {/* Приватные маршруты */}
+      <Route path='' element={<PrivateRoute />}>
+        {privateRoutes.map((route) => (
           <Route
-            key={route.component}
+            key={route.link}
             path={route.link}
             element={route.component}
           />
-        )
-      })}
-
-      {/* Приватные маршруты */}
-      {/* Обертка для приватных маршрутов */}
-      <Route path='' element={<PrivateRoute />}>
-        {/* Добавляем приватные маршруты */}
-        <Route path='' element={<PrivateRoute />}>
-          {/* Маппим приватные маршруты */}
-          {privateRoutes.map((route) => {
-            return (
-              <Route
-                key={route.component}
-                path={route.link}
-                element={route.component}
-              />
-            )
-          })}
-        </Route>
+        ))}
       </Route>
     </Route>
   )
-)
+);
 
 // Рендерим приложение
 ReactDOM.createRoot(document.getElementById('root')).render(

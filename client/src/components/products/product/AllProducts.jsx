@@ -27,20 +27,20 @@ const AllProducts = () => {
 
   useEffect(() => {
     if (data) {
-      setProducts(data)
+      setProducts(data || [])
     }
   }, [data])
 
 
   // Возвращение разметки с компонентами для выбора категории, поиска и отображения продуктов
   return (
-    <>
+    <div>
       <SelectCategory />
       {isError && toast.error(isError)}
       {isLoading && <Loader />}
       <SearchTitle />
       <OneProduct data={products} />
-    </>
+    </div>
   )
 }
 
