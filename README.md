@@ -1,48 +1,48 @@
-# SPA - Приложение
+# SPA - Application
 
-Это единое страница приложение (SPA), разработанное для управления категориями и продуктами с помощью клиентской и серверной частей. Приложение предоставляет возможность аутентификации пользователей, добавления, редактирования и удаления категорий и продуктов, а также инструменты для сортировки, поиска и пагинации продуктов.
+This is a Single Page Application (SPA) designed for managing categories and products using both client-side and server-side components. The application provides user authentication, CRUD operations for categories and products, as well as tools for sorting, searching, and paginating products.
 
-## Функциональность
+## Functionality
 
-### Авторизация
-Пользователи могут войти в систему с использованием своих учетных данных.
+### Authentication
+Users can log in to the system using their credentials.
 
-### Управление категориями и продуктами
-Пользователи могут создавать, просматривать, редактировать и удалять категории и продукты.
+### Category and Product Management
+Users can create, view, edit, and delete categories and products.
 
-### Сортировка и поиск
-Продукты могут быть отсортированы по различным параметрам, а также выполнен поиск по ключевым словам для быстрого доступа к нужной информации.
+### Sorting and Searching
+Products can be sorted by various parameters, and a search functionality allows users to quickly find the desired information using keywords.
 
-### Пагинация
-Результаты поиска и списка продуктов разбиты на страницы для удобства навигации.
+### Pagination
+Search results and product lists are paginated for ease of navigation.
 
-### Обработка ошибок и валидация данных
-Приложение обрабатывает ошибки и проводит валидацию введенных данных, предотвращая некорректные операции.
+### Error Handling and Data Validation
+The application handles errors and validates input data to prevent incorrect operations.
 
-## Технологии
+## Technologies
 
 ### Frontend
-- Используется React для построения пользовательского интерфейса.
-- Redux Toolkit применяется для управления состоянием.
-- Bootstrap используется для стилизации компонентов.
-- React Router обеспечивает навигацию между страницами.
+- React is used to build the user interface.
+- Redux Toolkit is applied for state management.
+- Bootstrap is used for styling components.
+- React Router facilitates navigation between pages.
 
 ### Backend
-- В качестве серверной части используется Express.js.
-- Локальная база данных и обработка запросов осуществляются с помощью Prisma.
-- JWT применяется для аутентификации пользователей.
+- Express.js is used for the server-side.
+- Prisma is utilized for the local database and query handling.
+- JWT is applied for user authentication.
 
-## Установка и запуск
+## Installation and Running
 
-1. Клонируйте репозиторий с помощью `git clone`.
-2. Установите зависимости с помощью `npm install`.
-3. Запустите серверную часть с помощью `npm run server`.
-4. Запустите клиентскую часть с помощью `npm run client`.
+1. Clone the repository using `git clone`.
+2. Install dependencies using `npm install`.
+3. Start the server-side using `npm run server`.
+4. Start the client-side using `npm run client`.
 
-## Дополнительная информация
+## Additional Information
 
-Для сборки и разработки приложения используется Vite, а для управления зависимостями - npm.
+Vite is used for building and development, and npm manages dependencies.
 
 --- 
 
-Этот README.md описывает основные функции, технологии и инструкции по установке и запуску приложения. Для получения более подробной информации и инструкций обращайтесь к соответствующим разделам в документации.
+This README.md describes the core features, technologies, and instructions for installing and running the application. For more detailed information and instructions, please refer to the relevant sections in the documentation.
