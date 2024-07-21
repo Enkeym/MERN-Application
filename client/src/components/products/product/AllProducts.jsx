@@ -12,10 +12,10 @@ const AllProducts = () => {
   const [products, setProducts] = useState([])
 
   // Получение фильтрованных данных из Redux-стейта
-  const searchName = useSelector((state) => state.product.searchName)
-  const categoryName = useSelector((state) => state.product.categoryName)
-  const currentPage = useSelector((state) => state.product.currentPage)
-  const currentPageSize = useSelector((state) => state.product.currentPageSize)
+  const searchName = useSelector((state) => state.products.searchName)
+  const categoryName = useSelector((state) => state.products.categoryName)
+  const currentPage = useSelector((state) => state.products.currentPage)
+  const currentPageSize = useSelector((state) => state.products.currentPageSize)
 
   // Вызов хука useAllProductsQuery для получения данных о продуктах
   const {data, isLoading, isError} = useAllProductsQuery({
@@ -32,7 +32,7 @@ const AllProducts = () => {
   }, [data])
 
 
-  // Возвращение разметки с компонентами для выбора категории, поиска и отображения продуктов
+  /* Добавить фильтрацию продуктов по цене */
   return (
     <div>
       <SelectCategory />

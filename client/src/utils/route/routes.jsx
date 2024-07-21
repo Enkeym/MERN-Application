@@ -6,6 +6,7 @@ import EditProducts from '../../components/products/product/EditProducts'; // И
 import MyProducts from '../../pages/MyProducts'; // Импортируем компонент MyProducts из указанного пути
 import ProductDetails from '../../pages/ProductDetails'; // Импортируем компонент ProductDetails из указанного пути
 import AllProducts from '../../components/products/product/AllProducts'; // Импортируем компонент AllProducts из указанного пути
+import Orders from '../../pages/Orders';
 
 // Массив объектов маршрутов для всех пользователей
 export const routes = [
@@ -28,5 +29,8 @@ export const privateRoutes = [
 
   /* Products */
   {link: '/products/my', component: <MyProducts />}, // Маршрут для страницы моих продуктов
-  {link: '/products/edit/:id', component: <EditProducts />} // Маршрут для страницы редактирования продукта
+  {link: '/products/edit/:id', component: <EditProducts />},// Маршрут для страницы редактирования продукта
+
+  /* Orders */
+  {link: '/orders', component: <Orders />}, // Маршрут для страницы заказов
 ];

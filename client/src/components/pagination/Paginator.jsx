@@ -1,11 +1,11 @@
 import {Pagination} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {setPage} from '../../features/productSlice';
+import {setPage} from '../../features/productsSlice';
 
 // Компонент для отображения пагинации
 const Paginator = ({totalPages}) => {
   // Получение текущей страницы из хранилища состояния
-  const {currentPage} = useSelector((state) => state.product);
+  const {currentPage} = useSelector((state) => state.products);
 
   const dispatch = useDispatch(); // Хук для диспетчера Redux
 

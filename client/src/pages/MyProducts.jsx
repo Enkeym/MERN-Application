@@ -12,8 +12,8 @@ const MyProducts = () => {
   // Получение информации о текущем пользователе из Redux
   const {userInfo} = useSelector((state) => state.auth)
   // Получение текущей страницы и размера страницы из Redux
-  const currentPage = useSelector((state) => state.product.currentPage)
-  const currentPageSize = useSelector((state) => state.product.currentPageSize)
+  const currentPage = useSelector((state) => state.products.currentPage)
+  const currentPageSize = useSelector((state) => state.products.currentPageSize)
 
   // Получение списка продуктов пользователя с использованием запроса useMyProductsQuery
   const {

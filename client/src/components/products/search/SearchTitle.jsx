@@ -1,5 +1,5 @@
 import {useDispatch} from 'react-redux'; // Импорт хука useDispatch для отправки действий в Redux
-import {searchName} from '../../../features/productSlice'; // Импорт action creator для поиска по названию продуктов
+import {searchName} from '../../../features/productsSlice'; // Импорт action creator для поиска по названию продуктов
 import {useEffect, useState} from 'react'; // Импорт хука useEffect для выполнения эффекта после отрисовки компонента и хука useState для управления состоянием
 import {FormControl} from 'react-bootstrap'; // Импорт компонента FormControl из библиотеки react-bootstrap для создания поля ввода
 import {useDebounce} from '../../../utils/debounce/debounce'; // Импорт кастомного хука useDebounce для создания задержки при изменении значения

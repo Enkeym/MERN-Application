@@ -1,6 +1,5 @@
-import {Form} from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 
-// Компонент для отображения текстового поля формы
 const FormInput = ({
   value,
   onChange,
@@ -10,15 +9,13 @@ const FormInput = ({
   required = false,
   title,
   pattern = false,
-  min = false,
-  step = false,
-  controlId = false
+  min,
+  step,
+  controlId 
 }) => {
   return (
     <Form.Group className='mb-3'>
-      {/* Выводим метку поля */}
       <Form.Label>{name}</Form.Label>
-      {/* Создаем текстовое поле */}
       <Form.Control
         type={type}
         placeholder={placeholder}
@@ -28,9 +25,9 @@ const FormInput = ({
         required={required}
         title={title}
         pattern={pattern}
-        min={min}
-        step={step}
-        controlId={controlId}
+        min={min !== false ? min : undefined} 
+        step={step !== false ? step : undefined} 
+        id={controlId} 
       />
     </Form.Group>
   );

@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {changeCategory} from '../../../features/productSlice';
+import {changeCategory} from '../../../features/productsSlice';
 import FormOption from '../../../ui/form/FormOption';
 
 // Компонент для выбора категории продуктов

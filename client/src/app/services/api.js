@@ -19,6 +19,6 @@ const baseQueryWithRetry = retry(baseQuery, { maxRetries: 1 })
 export const api = createApi({
   baseQuery: baseQueryWithRetry,
   refetchOnMountOrArgChange: true,
-  tagTypes: ['User', 'Product', 'Categories'],
+  tagTypes: ['User', 'Product', 'Categories', 'Orders'],
   endpoints: () => ({})
 })

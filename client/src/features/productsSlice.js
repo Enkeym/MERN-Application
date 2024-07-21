@@ -17,8 +17,8 @@ const initialState = {
 }
 
 // Создание среза для управления состоянием продуктов
-const productSlice = createSlice({
-  name: 'product',
+const productsSlice = createSlice({
+  name: 'products',
   initialState,
   reducers: {
     // Добавление продукта
@@ -50,6 +50,6 @@ const productSlice = createSlice({
 
 // Экспорт действий и редюсера
 export const { addProduct, logout, searchName, changeCategory, setPage } =
-  productSlice.actions
+  productsSlice.actions
 
-export default productSlice.reducer
+export default productsSlice.reducer

@@ -32,7 +32,8 @@ model Product {
   categories Category @relation(fields: [categoryId], references: [slug])
   categoryId String
 
-  order Order[]
+  order          Order[]
+  ProductInOrder ProductInOrder[]
 }
 
 model Category {
@@ -44,15 +45,25 @@ model Category {
 }
 
 model Order {
-  id String @id @default(uuid())
-
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
-  productId String
+  productsInOrder ProductInOrder[]
+  Product         Product?         @relation(fields: [productId], references: [id])
+  productId       String?
+}
+
+model ProductInOrder {
+  id String @id @default(uuid())
+
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId String
+
   product   Product @relation(fields: [productId], references: [id])
+  productId String
 
   quantity Int
   total    Float
