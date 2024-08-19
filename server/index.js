@@ -5,10 +5,7 @@ import user from './routes/user.js'
 import product from './routes/product.js'
 import category from './routes/category.js'
 import order from './routes/order.js'
-<<<<<<< HEAD
 import cart from './routes/cart.js'
-=======
->>>>>>> dc82848e998dae7ca57a72fab5bde07f7c22e236
 
 import { errorHandler, notFound } from './middleware/error.js'
 import cookieParser from 'cookie-parser'
