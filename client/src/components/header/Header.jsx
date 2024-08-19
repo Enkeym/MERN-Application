@@ -16,9 +16,9 @@ const Header = () => {
 
   const logoutHandler = async () => {
     try {
- 
+
       await logoutApiCall().unwrap();
-    
+
       dispatch(logout());
     } catch (err) {
       console.log(err);
@@ -29,41 +29,43 @@ const Header = () => {
     <header>
       <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
         <Container>
-          <LinkContainer to='/products'>
+          <LinkContainer to='/'>
             <Navbar.Brand className='d-flex align-items-center gap-1'>
               <FaHome size={25} /> Main
             </Navbar.Brand>
           </LinkContainer>
+
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
-              {userInfo && <LinkContainer to='/cart'>
-                <Nav.Link>
-                  <FaShoppingCart size={20} />
-                  {cartItems?.length > 0 && (
-                    <Badge bg='light' text='dark' className='ms-1'>
-                      {cartItems?.length}
-                    </Badge>
-                  )}
-                </Nav.Link>
-              </LinkContainer>}
+              {userInfo && (
+                <LinkContainer to='/cart'>
+                  <Nav.Link>
+                    <FaShoppingCart size={20} /> Cart
+                    {cartItems?.length > 0 && (
+                      <Badge bg='light' text='dark' className='ms-1'>
+                        {cartItems.length}
+                      </Badge>
+                    )}
+                  </Nav.Link>
+                </LinkContainer>
+              )}
+
               {userInfo ? (
-                <>
-                  <NavDropdown title={userInfo.name} id='username'>
-                    <LinkContainer to='/products/my'>
-                      <NavDropdown.Item>My Products</NavDropdown.Item>
-                    </LinkContainer>
-                    <LinkContainer to='/orders'>
-                      <NavDropdown.Item>Orders</NavDropdown.Item>
-                    </LinkContainer>
-                    <LinkContainer to='/profile'>
-                      <NavDropdown.Item>Profile</NavDropdown.Item>
-                    </LinkContainer>
-                    <NavDropdown.Item onClick={logoutHandler}>
-                      Logout
-                    </NavDropdown.Item>
-                  </NavDropdown>
-                </>
+                <NavDropdown title={userInfo.name} id='username'>
+                  <LinkContainer to='/products/my'>
+                    <NavDropdown.Item>My Products</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/orders'>
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/profile'>
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    <FaSignOutAlt /> Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
               ) : (
                 <>
                   <LinkContainer to='/login'>
