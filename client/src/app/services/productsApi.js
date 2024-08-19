@@ -24,8 +24,7 @@ export const productsApi = api.injectEndpoints({
         url: `${PRODUCTS_URL}/my/${userId}`,
         params: { page, pageSize }
       }),
-      providesTags: (result) =>
-        result ? [result, { type: 'Goods' }] : [{ type: 'Goods' }]
+      providesTags: (result) => providesList(result, 'Goods')
     }),
     editProduct: builder.mutation({
       query: (data) => ({
@@ -49,7 +48,7 @@ export const productsApi = api.injectEndpoints({
         method: 'POST',
         body: data
       }),
-      invalidatesTags: [{ type: 'Goods' }]
+      invalidatesTags: [{ type: 'Goods', id: 'LIST' }]
     })
   })
 })

@@ -1,24 +1,22 @@
 import winston from 'winston'
 
-// Создание логгера
+// Улучшение логирования ошибок
 const logger = winston.createLogger({
-  level: 'info', // Уровень логирования
+  level: 'info',
   format: winston.format.combine(
-    winston.format.timestamp(), // Добавление временной метки к каждой записи
-    winston.format.json() // Формат записи в формате JSON
+    winston.format.timestamp(),
+    winston.format.json()
   ),
   transports: [
-    // Запись логов в файл
-    new winston.transports.File({ filename: 'error.log', level: 'error' }), // Логи уровня error
-    new winston.transports.File({ filename: 'combined.log' }) // Логи всех уровней
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' })
   ]
 })
 
-// Если приложение работает в режиме разработки, выводим логи также в консоль
 if (process.env.NODE_ENV !== 'production') {
   logger.add(
     new winston.transports.Console({
-      format: winston.format.simple() // Простой формат для вывода в консоль
+      format: winston.format.simple()
     })
   )
 }

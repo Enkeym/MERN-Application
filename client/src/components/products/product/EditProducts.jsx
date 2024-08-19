@@ -1,5 +1,5 @@
 import {Navigate, useNavigate, useParams} from 'react-router-dom';
-import {useEditProductMutation, useProductByIdQuery} from '../../../app/services/products';
+import {useEditProductMutation, useProductByIdQuery} from '../../../app/services/productsApi';
 import Loader from '../../loader/Loader';
 import {Button, Container, Form} from 'react-bootstrap';
 import {useEffect, useState} from 'react';
@@ -7,20 +7,20 @@ import {toast} from 'react-toastify';
 import FormOption from '../../../ui/form/FormOption';
 import FormInput from '../../../ui/form/FormInput';
 
-// Компонент для редактирования продукта
+
 const EditProducts = () => {
-  const navigate = useNavigate(); // Хук для перехода на другие страницы
-  const params = useParams(); // Получение параметров из URL
-  const {data, isLoading} = useProductByIdQuery(params.id || ''); // Получение данных о продукте по его ID
-  const [edit] = useEditProductMutation(); // Хук для выполнения мутации редактирования продукта
+  const navigate = useNavigate();
+  const params = useParams();
+  const {data, isLoading} = useProductByIdQuery(params.id || '');
+  const [edit] = useEditProductMutation();
 
-  const [title, setTitle] = useState(''); // Состояние заголовка продукта
-  const [price, setPrice] = useState(''); // Состояние цены продукта
-  const [description, setDescription] = useState(''); // Состояние описания продукта
-  const [image, setImage] = useState(''); // Состояние изображения продукта
-  const [categoryId, setCategoryId] = useState(''); // Состояние категории продукта
+  const [title, setTitle] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState('');
+  const [categoryId, setCategoryId] = useState('');
 
-  // Обновление состояний при получении данных о продукте
+
   useEffect(() => {
     if (data) {
       setTitle(data.title);
@@ -31,17 +31,15 @@ const EditProducts = () => {
     }
   }, [data]);
 
-  // Отображение загрузчика при загрузке данных
   if (isLoading) {
     return <Loader />;
   }
 
-  // Переход на страницу со списком продуктов, если данные не найдены
   if (!data) {
     return <Navigate to='/products' />;
   }
 
-  // Обработчик редактирования продукта
+
   const handleEdit = async (e) => {
     e.preventDefault();
 
@@ -54,23 +52,23 @@ const EditProducts = () => {
         image,
       };
 
-      await edit(editedProduct).unwrap(); // Выполнение мутации редактирования продукта
-      toast.success('Product successfully edited!'); // Вывод уведомления об успешном редактировании
-      // Очистка состояний
+      await edit(editedProduct).unwrap();
+      toast.success('Product successfully edited!');
+
       setTitle('');
       setPrice('');
       setDescription('');
       setImage('');
       setCategoryId('');
-      navigate('/products'); // Переход на страницу со списком продуктов
+      navigate('/products');
     } catch (err) {
-      toast.error(err?.data?.message || err.error); // Вывод ошибки, если возникла
+      toast.error(err?.data?.message || err.error);
     }
   };
 
   return (
     <Container className='d-flex justify-content-center flex-column align-items-center gap-5 py-5'>
-      {/* Форма редактирования продукта */}
+
       <Form onSubmit={handleEdit} style={{width: '25rem'}}>
         <FormInput
           name='Name'

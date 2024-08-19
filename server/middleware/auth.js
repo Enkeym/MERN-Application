@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import jwt from 'jsonwebtoken'
 import { prisma } from '../../prisma/prisma-client.js'
 
+/* Создание защищенных маршрутов */
 const protect = asyncHandler(async (req, res, next) => {
   let token = req.cookies.jwt
 

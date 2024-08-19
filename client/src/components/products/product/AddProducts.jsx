@@ -1,12 +1,12 @@
 import {useState} from 'react';
 import {Button, Form, Modal} from 'react-bootstrap';
-import {useAddProductMutation} from '../../../app/services/products';
+import {useAddProductMutation} from '../../../app/services/productsApi';
 import {toast} from 'react-toastify';
 import {useNavigate} from 'react-router-dom';
 import FormOption from '../../../ui/form/FormOption';
 import FormInput from '../../../ui/form/FormInput';
 
-// Компонент для добавления продукта
+
 const AddProducts = () => {
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState('');
@@ -17,12 +17,12 @@ const AddProducts = () => {
   const [addProducts] = useAddProductMutation();
   const navigate = useNavigate();
 
-  // Обработчик открытия модального окна
+
   const handleShow = () => setShow(true);
-  // Обработчик закрытия модального окна
+
   const handleClose = () => {
     setShow(false);
-    // Очистка данных после закрытия модального окна
+
     setTitle('');
     setPrice('');
     setDescription('');
@@ -30,35 +30,34 @@ const AddProducts = () => {
     setCategoryId('');
   };
 
-  // Обработчик добавления продукта
+
   const handleAddProducts = async (e) => {
     e.preventDefault();
 
     try {
-      // Выполнение мутации для добавления продукта
+
       await addProducts({title, price, description, image, categoryId}).unwrap();
       toast.success('Product created successfully!');
-      handleClose(); // Закрытие модального окна
-      navigate('/products/my'); // Переход на страницу со списком продуктов пользователя
+      handleClose();
+      navigate('/products/my');
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
   };
-
   return (
     <>
-      {/* Кнопка для открытия модального окна */}
+
       <Button variant='primary' onClick={handleShow} className='m-1'>
         Add Product
       </Button>
 
-      {/* Модальное окно для добавления продукта */}
+
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Product</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {/* Форма для добавления продукта */}
+
           <Form onSubmit={handleAddProducts}>
             <FormInput
               name={'Name'}
@@ -101,11 +100,11 @@ const AddProducts = () => {
               initialName={categoryId}
               required
             />
-            {/* Кнопка для добавления продукта */}
+
             <Button type='submit' variant='primary' className='me-2'>
               Add
             </Button>
-            {/* Кнопка для закрытия модального окна */}
+
             <Button variant='secondary' onClick={handleClose}>
               Close
             </Button>

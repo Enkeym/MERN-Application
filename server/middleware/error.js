@@ -4,6 +4,7 @@ const notFound = (req, res, next) => {
   next(error)
 }
 
+/* Обработчик ошибок */
 const errorHandler = (err, req, res, next) => {
   let statusCode = res.statusCode === 200 ? 500 : res.statusCode
   let message = err.message
@@ -13,12 +14,10 @@ const errorHandler = (err, req, res, next) => {
     message = 'Resource not found'
   }
 
-  res
-    .status(statusCode)
-    .json({
-      message,
-      stack: process.env.NODE_ENV === 'production' ? null : err.stack,
-    })
+  res.status(statusCode).json({
+    message,
+    stack: process.env.NODE_ENV === 'production' ? null : err.stack
+  })
 }
 
-export {notFound, errorHandler}
+export { notFound, errorHandler }

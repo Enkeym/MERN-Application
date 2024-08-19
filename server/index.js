@@ -4,6 +4,8 @@ import dotenv from 'dotenv'
 import user from './routes/user.js'
 import product from './routes/product.js'
 import category from './routes/category.js'
+import order from './routes/order.js'
+import cart from './routes/cart.js'
 
 import { errorHandler, notFound } from './middleware/error.js'
 import cookieParser from 'cookie-parser'
@@ -22,6 +24,8 @@ app.use(cookieParser())
 app.use('/api/users', user)
 app.use('/api/category', category)
 app.use('/api/products', product)
+app.use('/api/orders', order)
+app.use('/api/cart', cart)
 
 //build root
 if (process.env.NODE_ENV === 'production') {

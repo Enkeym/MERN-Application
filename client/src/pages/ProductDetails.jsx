@@ -1,68 +1,66 @@
-import {Link, Navigate, useNavigate, useParams} from 'react-router-dom'
-import Loader from '../components/loader/Loader'
-import {Button, Card, Container} from 'react-bootstrap'
-import {useProductByIdQuery, useRemoveProductMutation} from '../app/services/products'
-import {useSelector} from 'react-redux'
-import {toast} from 'react-toastify'
+import {Link, Navigate, useNavigate, useParams} from 'react-router-dom';
+import Loader from '../components/loader/Loader';
+import {Button, Card, Container} from 'react-bootstrap';
+import {useProductByIdQuery, useRemoveProductMutation} from '../app/services/productsApi';
+import {useSelector} from 'react-redux';
+import {toast} from 'react-toastify';
+import AddToCartButton from '../components/cart/AddToCart';
+import QuantitySelector from '../components/cart/QuantitySelector';
 
 const ProductDetails = () => {
-  const navigate = useNavigate() // Хук для навигации между страницами
-  const {id} = useParams() // Хук для получения параметров маршрута
-  const {data = [], isLoading} = useProductByIdQuery(id) // Запрос данных о продукте по ID
-  const {image, title, price, description, userId} = data // Деструктуризация данных о продукте
-  const [remove] = useRemoveProductMutation() // Мутация для удаления продукта
-  const {userInfo} = useSelector((state) => state.auth) // Получение информации о текущем пользователе из Redux Store
+  const navigate = useNavigate();
+  const {id} = useParams();
+  const {data, isLoading, isError} = useProductByIdQuery(id);
+  const [remove] = useRemoveProductMutation();
+  const {userInfo} = useSelector((state) => state.auth);
+  const {items: cartItems = []} = useSelector((state) => state.cart);
+  console.log(cartItems)
 
-  // Если данные загружаются, отображаем компонент загрузки
-  {
-    isLoading && <Loader />
-  }
+  if (isLoading) return <Loader />;
+  if (isError || !data) return <Navigate to='/' />;
 
-  // Если данные о продукте не получены, перенаправляем пользователя на главную страницу
-  {
-    data ? data : <Navigate to='/' />
-  }
+  const {image, title, price, description, userId} = data;
 
-  // Обработчик удаления продукта
+  const cartItem = cartItems.find(item => item.productId === id);
+
   const handleDelete = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
-      await remove(data.id).unwrap() // Выполнение удаления продукта
-      toast.success('Successfully deleted!') // Уведомление об успешном удалении
-      navigate('/products') // Перенаправление пользователя на главную страницу
+      await remove(id).unwrap()
+      toast.success('Successfully deleted!');
+      navigate('/products');
     } catch (err) {
-      toast.error(err?.data?.message || err.error) // Отображение ошибки удаления
+      toast.error(err?.data?.message || err.error);
     }
-  }
+  };
 
   return (
     <Container className='d-flex justify-content-center flex-column align-items-center gap-5 py-5'>
-      {/* Карточка с информацией о продукте */}
       <Card style={{width: '25rem'}}>
-        <Card.Img variant='top' src={image} /> {/* Изображение продукта */}
+        <Card.Img variant='top' src={image} />
         <Card.Body>
-          <Card.Title>{title}</Card.Title> {/* Название продукта */}
-          <Card.Subtitle>{price}<span>&#36;</span></Card.Subtitle> {/* Цена продукта */}
-          <Card.Text>{description}</Card.Text> {/* Описание продукта */}
-          {/* Управление кнопками в зависимости от аутентификации пользователя и владельца продукта */}
-          {userInfo && userInfo.id === userId ? ( // Если пользователь аутентифицирован и является владельцем продукта
-            <> {/* Фрагмент для вложенных элементов */}
-              <Link to={`/products/edit/${data.id}`}> {/* Ссылка для перехода к редактированию продукта */}
-                <Button variant='secondary' className='me-2'> {/* Кнопка для редактирования */}
+          <Card.Title>{title}</Card.Title>
+          <Card.Subtitle>{price}<span>&#36;</span></Card.Subtitle>
+          <Card.Text>{description}</Card.Text>
+          {userInfo && userInfo.id === userId ? (
+            <>
+              <Link to={`/products/edit/${id}`}>
+                <Button variant='secondary' className='me-2'>
                   Edit
                 </Button>
               </Link>
-              <Button onClick={handleDelete} variant='danger'> {/* Кнопка для удаления */}
+              <Button onClick={handleDelete} variant='danger'>
                 Delete
               </Button>
             </>
-          ) : ( // Если пользователь не является владельцем продукта
-            <Button variant='primary'>Buy</Button> //Кнопка удаления продуктов 
+          ) : (
+            cartItem ? <QuantitySelector item={cartItem} /> : <AddToCartButton product={data} />
           )}
         </Card.Body>
       </Card>
     </Container>
-  )
-}
-export default ProductDetails
+  );
+};
+
+export default ProductDetails;

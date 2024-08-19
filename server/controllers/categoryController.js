@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import { prisma } from '../../prisma/prisma-client.js'
-import logger from '../utils/logger.js' // Импортируем логгер
+import logger from '../utils/logger.js' 
 
 // GET /api/category
 const allCategory = asyncHandler(async (req, res) => {
@@ -41,7 +41,6 @@ const addCategory = asyncHandler(async (req, res) => {
   }
 
   try {
-    // Проверяем, существует ли категория с таким slug
     const categoryExists = await prisma.category.findFirst({
       where: {
         slug
@@ -55,7 +54,6 @@ const addCategory = asyncHandler(async (req, res) => {
       return res.status(400).json({ message: 'Category already exists' })
     }
 
-    // Создаем новую категорию
     const createCategory = await prisma.category.create({
       data: {
         name,

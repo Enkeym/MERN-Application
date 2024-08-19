@@ -3,7 +3,6 @@ import { prisma } from '../../prisma/prisma-client.js'
 import logger from '../utils/logger.js'
 
 // GET /api/products
-// Получение всех продуктов с учетом фильтрации по категории и поиску
 const allProducts = asyncHandler(async (req, res) => {
   const { category, search, page = 1, pageSize = 2 } = req.query
 
@@ -11,7 +10,6 @@ const allProducts = asyncHandler(async (req, res) => {
     let products
 
     if (category) {
-      // Если указана категория, получаем продукты в этой категории
       const productsInCategory = await prisma.category.findUnique({
         where: {
           slug: category
@@ -27,17 +25,14 @@ const allProducts = asyncHandler(async (req, res) => {
 
       products = productsInCategory.products
 
-      // Если указан поиск, фильтруем продукты по названию
       if (search) {
         products = products.filter((product) =>
           product.title.toLowerCase().includes(search.toLowerCase())
         )
       }
     } else {
-      // Если категория не указана, получаем все продукты
       products = await prisma.product.findMany()
 
-      // Если указан поиск, фильтруем продукты по названию
       if (search) {
         products = products.filter((product) =>
           product.title.toLowerCase().includes(search.toLowerCase())
@@ -45,7 +40,6 @@ const allProducts = asyncHandler(async (req, res) => {
       }
     }
 
-    // Рассчитываем общее количество страниц и разбиваем продукты на страницы
     const totalItems = products.length
     const totalPages = Math.ceil(totalItems / pageSize)
     const startIndex = (page - 1) * pageSize
@@ -60,7 +54,6 @@ const allProducts = asyncHandler(async (req, res) => {
 })
 
 //GET /api/products/:id
-// Получение продукта по ID
 const productId = asyncHandler(async (req, res) => {
   const { id } = req.params
 
@@ -83,19 +76,16 @@ const productId = asyncHandler(async (req, res) => {
 })
 
 //GET /api/products/my/:userId
-// Получение продуктов пользователя
 const myProducts = asyncHandler(async (req, res) => {
   const { page = 1, pageSize = 2 } = req.query
 
   try {
-    // Получаем продукты пользователя
     const products = await prisma.product.findMany({
       where: {
         userId: req.params.userId
       }
     })
 
-    // Рассчитываем общее количество страниц и разбиваем продукты на страницы
     const totalItems = products.length
     const totalPages = Math.ceil(totalItems / pageSize)
     const startIndex = (page - 1) * pageSize
@@ -110,39 +100,44 @@ const myProducts = asyncHandler(async (req, res) => {
 })
 
 //POST /api/products/add
-// Добавление нового продукта
 const addProducts = asyncHandler(async (req, res) => {
-  const { title, price, description, image } = req.body
+  const { title, price, description, image, categoryId } = req.body
 
-  // Проверка наличия обязательных полей
-  if (!title || !price || !description || !image) {
+  if (!title || !price || !description || !image || !categoryId) {
     return res.status(400).json({ message: 'All fields are required!' })
   }
 
-  // Проверка наличия продукта с такими же параметрами
-  const productExists = await prisma.product.findFirst({
-    where: {
-      title,
-      price,
-      description,
-      userId: req.user.id
-    }
+  const userExists = await prisma.user.findUnique({
+    where: { id: req.user.id }
+  })
+  if (!userExists) {
+    return res.status(400).json({ message: 'User not found' })
+  }
+
+  const categoryExists = await prisma.category.findUnique({
+    where: { slug: categoryId }
   })
 
-  // Если продукт уже существует, возвращаем ошибку
+  if (!categoryExists) {
+    return res.status(400).json({ message: 'Category not found' })
+  }
+
+  const productExists = await prisma.product.findFirst({
+    where: { title, price, description, userId: req.user.id }
+  })
+
   if (productExists) {
     return res.status(400).json({ message: 'Product already exists' })
   }
 
   try {
-    // Создание нового продукта
     const createProduct = await prisma.product.create({
       data: {
         title,
         price,
         image,
         description,
-        categoryId: req.body.categoryId,
+        categoryId,
         userId: req.user.id
       }
     })
@@ -155,12 +150,10 @@ const addProducts = asyncHandler(async (req, res) => {
 })
 
 //POST /api/remove/products/:id
-// Удаление продукта по ID
 const removeProducts = asyncHandler(async (req, res) => {
   const { id } = req.params
 
   try {
-    // Удаление продукта
     const deleteProduct = await prisma.product.delete({
       where: {
         id
@@ -175,13 +168,11 @@ const removeProducts = asyncHandler(async (req, res) => {
 })
 
 //PUT /api/products/edit/:id
-// Обновление информации о продукте
 const editProducts = asyncHandler(async (req, res) => {
   const data = req.body
   const id = data.id
 
   try {
-    // Обновление продукта
     const updatedProduct = await prisma.product.update({
       where: {
         id

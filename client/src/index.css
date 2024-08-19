@@ -1,6 +1,3 @@
-/* Reset CSS */
-
-/* Обнуляем отступы и поля */
 *,
 *::before,
 *::after {
@@ -9,7 +6,6 @@
   box-sizing: border-box;
 }
 
-/* Устанавливаем одинаковые размеры для всех элементов */
 html,
 body,
 div,
@@ -52,45 +48,38 @@ section {
   vertical-align: baseline;
 }
 
-/* Удаляем стили списков */
 ul,
 ol {
   list-style: none;
 }
 
-/* Убираем стандартное оформление ссылок */
 a {
   text-decoration: none;
   color: inherit;
 }
 
-/* Делаем изображения респонсивными */
 img {
   max-width: 100%;
   height: auto;
 }
 
-/* Устанавливаем основные стили для таблиц */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* Убираем выделение при клике */
 button,
 input,
 textarea {
   outline: none;
 }
 
-/* Устанавливаем стандартный шрифт для элементов */
 body {
   font-family: Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5;
 }
 
-/* Добавляем стили для элементов форм */
 input,
 button,
 textarea,
@@ -99,4 +88,12 @@ select {
   font-size: inherit;
 }
 
-/* Добавляем дополнительные правила, если необходимо */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}

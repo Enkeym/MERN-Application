@@ -16,12 +16,9 @@ import store from './app/store.js'
 import PrivateRoute from './utils/route/PrivateRoute.jsx'
 import {privateRoutes, routes} from './utils/route/routes.jsx'
 
-// Создаем экземпляр BrowserRouter
 const router = createBrowserRouter(
-  // Создаем маршруты из элементов JSX
   createRoutesFromElements(
     <Route path='/' element={<App />}>
-      {/* Перенаправление с корневого URL на /products */}
       <Route index element={<Navigate to="/products" />} />
 
       {/* Общедоступные маршруты */}
@@ -34,7 +31,7 @@ const router = createBrowserRouter(
         />
       ))}
 
-      {/* Приватные маршруты */}
+      {/* Приветственные маршруты */}
       <Route path='' element={<PrivateRoute />}>
         {privateRoutes.map((route) => (
           <Route
@@ -48,10 +45,8 @@ const router = createBrowserRouter(
   )
 );
 
-// Рендерим приложение
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    {/* Оборачиваем приложение в провайдер Redux и React Router */}
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>

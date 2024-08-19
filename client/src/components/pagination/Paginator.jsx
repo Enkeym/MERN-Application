@@ -1,28 +1,28 @@
 import {Pagination} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {setPage} from '../../features/productSlice';
+import {setPage} from '../../features/productsSlice';
 
-// Компонент для отображения пагинации
+
 const Paginator = ({totalPages}) => {
-  // Получение текущей страницы из хранилища состояния
-  const {currentPage} = useSelector((state) => state.product);
 
-  const dispatch = useDispatch(); // Хук для диспетчера Redux
+  const {currentPage} = useSelector((state) => state.products);
 
-  // Обработчик изменения страницы
+  const dispatch = useDispatch();
+
+
   const handlePageChange = (pageNumber) => {
-    dispatch(setPage(pageNumber)); // Вызов экшена для установки текущей страницы
+    dispatch(setPage(pageNumber));
   };
 
-  // Формирование элементов пагинации
+
   const getPageItems = () => {
     const items = [];
     for (let number = 1;number <= totalPages;number++) {
       items.push(
         <Pagination.Item
           key={number}
-          active={number === currentPage} // Установка активной страницы
-          onClick={() => handlePageChange(number)} // Обработчик клика по странице
+          active={number === currentPage}
+          onClick={() => handlePageChange(number)}
         >
           {number}
         </Pagination.Item>
@@ -31,20 +31,18 @@ const Paginator = ({totalPages}) => {
     return items;
   };
 
-  // Возвращение компонента пагинации
+
   return (
     <Pagination>
-      {/* Кнопка перехода к предыдущей странице */}
+
       <Pagination.Prev
-        onClick={() => handlePageChange(currentPage - 1)} // Обработчик клика по кнопке
-        disabled={currentPage === 1} // Отключение кнопки, если текущая страница первая
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1}
       />
-      {/* Элементы пагинации */}
       {getPageItems()}
-      {/* Кнопка перехода к следующей странице */}
       <Pagination.Next
-        onClick={() => handlePageChange(currentPage + 1)} // Обработчик клика по кнопке
-        disabled={currentPage === totalPages} // Отключение кнопки, если текущая страница последняя
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
       />
     </Pagination>
   );

@@ -1,33 +1,30 @@
-import {Navbar, Nav, Container, NavDropdown} from 'react-bootstrap'
+import {Navbar, Nav, Container, NavDropdown, Badge} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
-import {FaSignInAlt, FaSignOutAlt, FaHome} from 'react-icons/fa'
+import {FaSignInAlt, FaSignOutAlt, FaHome, FaShoppingCart} from 'react-icons/fa'
 import {useDispatch, useSelector} from 'react-redux'
-import {useLogoutMutation} from '../../app/services/users'
-import {useNavigate} from 'react-router-dom'
+import {useLogoutMutation} from '../../app/services/usersApi'
 import {logout} from '../../features/authSlice'
 
 const Header = () => {
-  // Получение информации о текущем пользователе из Redux
   const {userInfo} = useSelector((state) => state.auth);
+  const {items: cartItems} = useSelector((state) => state.cart.items || [])
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [logoutApiCall] = useLogoutMutation();
 
-  // Обработчик выхода из учетной записи
+
   const logoutHandler = async () => {
     try {
-      // Вызов API для выхода из учетной записи
+ 
       await logoutApiCall().unwrap();
-      // Диспетчеризация действия выхода из учетной записи в Redux
+    
       dispatch(logout());
-      // Перенаправление на главную страницу
-      navigate('/products');
     } catch (err) {
       console.log(err);
     }
   };
+
   return (
     <header>
       <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
@@ -40,14 +37,27 @@ const Header = () => {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
+              {userInfo && <LinkContainer to='/cart'>
+                <Nav.Link>
+                  <FaShoppingCart size={20} />
+                  {cartItems?.length > 0 && (
+                    <Badge bg='light' text='dark' className='ms-1'>
+                      {cartItems?.length}
+                    </Badge>
+                  )}
+                </Nav.Link>
+              </LinkContainer>}
               {userInfo ? (
                 <>
                   <NavDropdown title={userInfo.name} id='username'>
-                    <LinkContainer to='/profile'>
-                      <NavDropdown.Item>Profile</NavDropdown.Item>
-                    </LinkContainer>
                     <LinkContainer to='/products/my'>
                       <NavDropdown.Item>My Products</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to='/orders'>
+                      <NavDropdown.Item>Orders</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to='/profile'>
+                      <NavDropdown.Item>Profile</NavDropdown.Item>
                     </LinkContainer>
                     <NavDropdown.Item onClick={logoutHandler}>
                       Logout

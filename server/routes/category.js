@@ -4,7 +4,7 @@ import {
   addCategory,
   allCategory,
   singleCategory
-} from '../controllers/category.js'
+} from '../controllers/categoryController.js'
 
 const router = express.Router()
 

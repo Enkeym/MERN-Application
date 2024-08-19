@@ -5,28 +5,28 @@ import AddProducts from '../components/products/product/AddProducts'
 import AddCategory from '../components/products/category/AddCategory'
 import MainProduct from '../components/products/product/MainProduct'
 import {Container} from 'react-bootstrap'
-import {useMyProductsQuery} from '../app/services/products'
+import {useMyProductsQuery} from '../app/services/productsApi'
 
-// Компонент для отображения списка продуктов пользователя
+
 const MyProducts = () => {
-  // Получение информации о текущем пользователе из Redux
-  const {userInfo} = useSelector((state) => state.auth)
-  // Получение текущей страницы и размера страницы из Redux
-  const currentPage = useSelector((state) => state.product.currentPage)
-  const currentPageSize = useSelector((state) => state.product.currentPageSize)
 
-  // Получение списка продуктов пользователя с использованием запроса useMyProductsQuery
+  const {userInfo} = useSelector((state) => state.auth)
+
+  const currentPage = useSelector((state) => state.products.currentPage)
+  const currentPageSize = useSelector((state) => state.products.currentPageSize)
+
+
   const {
-    data = [], // Данные о продуктах
-    isLoading, // Флаг загрузки
-    isError // Флаг ошибки
+    data = [],
+    isLoading,
+    isError
   } = useMyProductsQuery({
-    userId: userInfo.id, // Идентификатор пользователя для фильтрации продуктов
-    page: currentPage, // Текущая страница
-    pageSize: currentPageSize // Размер страницы
+    userId: userInfo.id,
+    page: currentPage,
+    pageSize: currentPageSize
   })
 
-  // Обработка загрузки и ошибок
+
   if (isLoading) {
     return <Loader />;
   }
@@ -37,7 +37,6 @@ const MyProducts = () => {
   }
 
 
-  // Отображение списка продуктов пользователя
   return (
     <Container className='text-center p-3'>
       <AddCategory />
