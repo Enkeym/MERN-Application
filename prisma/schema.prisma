@@ -33,14 +33,9 @@ model Product {
   categories Category @relation(fields: [categoryId], references: [slug])
   categoryId String
 
-<<<<<<< HEAD
   ProductInOrder ProductInOrder[]
 
   CartProduct CartProduct[]
-=======
-  order          Order[]
-  ProductInOrder ProductInOrder[]
->>>>>>> dc82848e998dae7ca57a72fab5bde07f7c22e236
 }
 
 model Category {
