@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {changeCategory} from '../../../features/productsSlice';
+import {changeCategory, setPage} from '../../../features/productsSlice';
 import FormOption from '../../../ui/form/FormOption';
 
 
@@ -9,8 +9,10 @@ const SelectCategory = () => {
   const [categories, setCategories] = useState();
 
   const handleChange = (e) => {
-    dispatch(changeCategory(e.target.value));
-    setCategories(e.target.value);
+    const selectedCategory = e.target.value;
+    dispatch(changeCategory(selectedCategory));
+    dispatch(setPage(1))
+    setCategories(selectedCategory);
   };
 
 
