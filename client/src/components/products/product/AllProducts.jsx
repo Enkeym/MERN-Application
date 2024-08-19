@@ -17,7 +17,6 @@ const AllProducts = () => {
   const currentPage = useSelector((state) => state.products.currentPage)
   const currentPageSize = useSelector((state) => state.products.currentPageSize)
 
-
   const {data, isLoading, isError} = useAllProductsQuery({
     category: categoryName,
     search: searchName,

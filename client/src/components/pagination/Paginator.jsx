@@ -2,7 +2,6 @@ import {Pagination} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {setPage} from '../../features/productsSlice';
 
-
 const Paginator = ({totalPages}) => {
 
   const {currentPage} = useSelector((state) => state.products);

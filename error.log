@@ -35,6 +35,7 @@
 {"level":"error","message":"Error in allOrders: \nInvalid `prisma.order.findMany()` invocation:\n\n\nCannot select both '$scalars: true' and a specific scalar field 'product'.","timestamp":"2024-05-24T10:39:45.148Z"}
 {"level":"error","message":"Error in addOrder: \nInvalid `prisma.order.create()` invocation:\n\n{\n  data: {\n    productId: \"3e0f20d2-7080-4419-ae04-2587a7aa8d3c\",\n    quantity: 1,\n    ~~~~~~~~\n    total: 1,\n    userId: \"6cd5037f-9a1d-4bd3-bc96-59ef633e4dc6\",\n?   id?: String,\n?   createdAt?: DateTime,\n?   productsInOrder?: ProductInOrderUncheckedCreateNestedManyWithoutOrderInput\n  }\n}\n\nUnknown argument `quantity`. Available options are marked with ?.","timestamp":"2024-05-24T10:45:19.098Z"}
 {"level":"error","message":"Error in addOrder: productsInOrder is not defined","timestamp":"2024-05-24T10:47:24.998Z"}
+<<<<<<< HEAD
 {"level":"error","message":"Error in addOrder: productsInOrder is not defined","timestamp":"2024-08-06T10:49:40.377Z"}
 {"level":"error","message":"Error in addOrder: productsInOrder is not defined","timestamp":"2024-08-06T10:51:24.598Z"}
 {"level":"error","message":"Error in addOrder: productsInOrder is not defined","timestamp":"2024-08-06T10:55:56.918Z"}
@@ -82,3 +83,5 @@
 {"level":"error","message":"Error in getCart: localStorage is not defined","timestamp":"2024-08-18T14:09:39.746Z"}
 {"level":"error","message":"Error in addToCart: localStorage is not defined","timestamp":"2024-08-18T14:09:45.053Z"}
 {"level":"error","message":"Error in getCart: \nInvalid `prisma.cart.findUnique()` invocation:\n\n{\n  where: {\n    userId: undefined,\n?   id?: String,\n?   AND?: CartWhereInput | CartWhereInput[],\n?   OR?: CartWhereInput[],\n?   NOT?: CartWhereInput | CartWhereInput[],\n?   user?: UserRelationFilter | UserWhereInput,\n?   products?: CartProductListRelationFilter\n  },\n  include: {\n    products: {\n      include: {\n        product: true\n      }\n    }\n  }\n}\n\nArgument `where` of type CartWhereUniqueInput needs at least one of `id` or `userId` arguments. Available options are marked with ?.","timestamp":"2024-08-18T14:16:00.228Z"}
+=======
+>>>>>>> dc82848e998dae7ca57a72fab5bde07f7c22e236
