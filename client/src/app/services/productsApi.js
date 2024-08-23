@@ -27,10 +27,10 @@ export const productsApi = api.injectEndpoints({
       providesTags: (result) => providesList(result, 'Goods')
     }),
     editProduct: builder.mutation({
-      query: (data) => ({
-        url: `${PRODUCTS_URL}/edit/${data.id}`,
+      query: ({ id, formData }) => ({
+        url: `${PRODUCTS_URL}/edit/${id}`,
         method: 'PUT',
-        body: data
+        body: formData
       }),
       invalidatesTags: [{ type: 'Goods' }]
     }),
@@ -43,10 +43,10 @@ export const productsApi = api.injectEndpoints({
       invalidatesTags: [{ type: 'Goods' }]
     }),
     addProduct: builder.mutation({
-      query: (data) => ({
+      query: (formData) => ({
         url: `${PRODUCTS_URL}/add`,
         method: 'POST',
-        body: data
+        body: formData
       }),
       invalidatesTags: [{ type: 'Goods', id: 'LIST' }]
     })

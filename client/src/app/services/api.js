@@ -1,17 +1,17 @@
 import { createApi, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react'
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: ''
+  baseUrl: '',
 })
 
 export function providesList(result, tagType) {
-  const products = result?.products || result?.currentPageProducts;
+  const products = result?.products || result?.currentPageProducts
   return products
     ? [
         { type: tagType, id: 'LIST' },
-        ...products.map(({ id }) => ({ type: tagType, id })),
+        ...products.map(({ id }) => ({ type: tagType, id }))
       ]
-    : [{ type: tagType, id: 'LIST' }];
+    : [{ type: tagType, id: 'LIST' }]
 }
 
 const baseQueryWithRetry = retry(baseQuery, { maxRetries: 1 })

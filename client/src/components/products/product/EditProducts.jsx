@@ -6,6 +6,7 @@ import {useEffect, useState} from 'react';
 import {toast} from 'react-toastify';
 import FormOption from '../../../ui/form/FormOption';
 import FormInput from '../../../ui/form/FormInput';
+import FileInput from '../../../ui/form/FileInput';
 
 
 const EditProducts = () => {
@@ -17,7 +18,7 @@ const EditProducts = () => {
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(null);
   const [categoryId, setCategoryId] = useState('');
 
 
@@ -26,7 +27,7 @@ const EditProducts = () => {
       setTitle(data.title);
       setPrice(data.price);
       setDescription(data.description);
-      setImage(data.image);
+      setImage(null);
       setCategoryId(data.categoryId);
     }
   }, [data]);
@@ -40,25 +41,33 @@ const EditProducts = () => {
   }
 
 
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+
+
   const handleEdit = async (e) => {
     e.preventDefault();
 
-    try {
-      const editedProduct = {
-        ...data,
-        title,
-        price,
-        description,
-        image,
-      };
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('price', price);
+    formData.append('description', description);
+    formData.append('categoryId', categoryId);
 
-      await edit(editedProduct).unwrap();
+    if (image) {
+      formData.append('image', image);
+    }
+
+    try {
+      await edit({id: params.id, formData}).unwrap();
       toast.success('Product successfully edited!');
 
       setTitle('');
       setPrice('');
       setDescription('');
-      setImage('');
+      setImage(null);
       setCategoryId('');
       navigate('/products');
     } catch (err) {
@@ -76,7 +85,6 @@ const EditProducts = () => {
           placeholder='Name'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          required
         />
 
         <FormInput
@@ -87,23 +95,11 @@ const EditProducts = () => {
           onChange={(e) => setPrice(e.target.value)}
           min='0'
           step='0.01'
-          required
         />
 
-        <FormInput
-          name='Description'
-          type='text'
-          placeholder='Description'
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-
-        <FormInput
-          name='Image'
-          type='text'
-          placeholder='Image as URL'
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
+        <FileInput
+          name={'Image'}
+          onChange={handleImageChange}
         />
 
         <FormOption

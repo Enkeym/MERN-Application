@@ -21,6 +21,7 @@ const ProductDetails = () => {
   if (isError || !data) return <Navigate to='/' />;
 
   const {image, title, price, description, userId} = data;
+  const apiUrl = import.meta.env.VITE_API_URL
 
   const cartItem = cartItems.find(item => item.productId === id);
 
@@ -40,7 +41,7 @@ const ProductDetails = () => {
   return (
     <Container className='d-flex justify-content-center flex-column align-items-center gap-5 py-5'>
       <Card style={{width: '25rem'}}>
-        <Card.Img variant='top' src={image} />
+        <Card.Img variant='top' src={`${apiUrl}${image}`} />
         <Card.Body>
           <Card.Title>{title}</Card.Title>
           <Card.Subtitle>{price}<span>&#36;</span></Card.Subtitle>

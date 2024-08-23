@@ -18,7 +18,6 @@ const AddProducts = () => {
   const [addProducts] = useAddProductMutation();
   const navigate = useNavigate();
 
-
   const handleShow = () => setShow(true);
 
   const handleClose = () => {
@@ -27,7 +26,7 @@ const AddProducts = () => {
     setTitle('');
     setPrice('');
     setDescription('');
-    setImage('');
+    setImage(null);
     setCategoryId('');
   };
 
@@ -72,7 +71,7 @@ const AddProducts = () => {
         </Modal.Header>
         <Modal.Body>
 
-          <Form onSubmit={handleAddProducts}>
+          <Form onSubmit={handleAddProducts} encType="multipart/form-data">
             <FormInput
               name={'Name'}
               value={title}

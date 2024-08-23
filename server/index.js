@@ -10,7 +10,6 @@ import cart from './routes/cart.js'
 import { errorHandler, notFound } from './middleware/error.js'
 import cookieParser from 'cookie-parser'
 import { fileURLToPath } from 'url'
-import upload from './middleware/multerConfig.js'
 
 dotenv.config()
 
@@ -46,35 +45,6 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   app.get('/', (req, res) => res.send(`Server is ready`))
 }
-
-app.post('/upload', upload.single('image'), (req, res) => {
-  console.log('File:', req.file)
-  res.send('File uploaded successfully.')
-})
-
-app.get('/files/:filename', (req, res) => {
-  const { filename } = req.params
-  const filePath = path.join(__dirname, 'uploads', filename)
-
-  res.sendFile(filePath, (err) => {
-    if (err) {
-      console.error(err)
-      res.status(404).send('File not found')
-    }
-  })
-})
-
-app.get('/upload/:filename', (req, res) => {
-  const { filename } = req.params
-  const filePath = path.join(__dirname, '/uploads', filename)
-
-  res.sendFile(filePath, (err) => {
-    if (err) {
-      console.error('File not found:', err)
-      res.status(404).json({ message: 'File not found' })
-    }
-  })
-})
 
 app.use(notFound)
 app.use(errorHandler)

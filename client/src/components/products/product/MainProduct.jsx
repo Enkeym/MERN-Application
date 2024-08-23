@@ -6,6 +6,7 @@ import Paginator from '../../pagination/Paginator'
 
 const MainProduct = ({data}) => {
   const {currentPageProducts, totalPages} = data
+  const apiUrl = import.meta.env.VITE_API_URL
 
 
   if (!currentPageProducts || currentPageProducts.length === 0) {
@@ -26,7 +27,6 @@ const MainProduct = ({data}) => {
 
         {currentPageProducts?.map((items) => {
           const {id, title, image, description, price} = items
-          console.log(image)
           return (
             <Link
               to={`/products/${id}`}
@@ -37,7 +37,7 @@ const MainProduct = ({data}) => {
               <Card style={{width: '25rem'}}>
                 <Card.Img
                   variant='top'
-                  src={image}
+                  src={`${apiUrl}${image}`}
                   style={{height: '300px'}}
                 />
                 <Card.Body>

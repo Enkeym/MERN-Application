@@ -161,10 +161,16 @@ const removeProducts = asyncHandler(async (req, res) => {
   const { id } = req.params
 
   try {
+    await prisma.productInOrder.deleteMany({
+      where: { productId: id }
+    })
+
+    await prisma.cartProduct.deleteMany({
+      where: { productId: id }
+    })
+
     const deleteProduct = await prisma.product.delete({
-      where: {
-        id
-      }
+      where: { id }
     })
 
     res.status(200).json(deleteProduct)
@@ -173,8 +179,7 @@ const removeProducts = asyncHandler(async (req, res) => {
     res.status(500).json({ message: 'Failed to remove product' })
   }
 })
-
-//PUT /api/products/edit/:id
+// PUT /api/products/edit/:id
 const editProducts = asyncHandler(async (req, res) => {
   const { title, price, description, categoryId } = req.body
   const id = req.params.id
@@ -186,6 +191,14 @@ const editProducts = asyncHandler(async (req, res) => {
   }
 
   try {
+    const existingProduct = await prisma.product.findUnique({
+      where: { id }
+    })
+
+    if (!existingProduct) {
+      return res.status(404).json({ message: 'Product not found' })
+    }
+
     const updatedProduct = await prisma.product.update({
       where: { id },
       data
@@ -197,6 +210,7 @@ const editProducts = asyncHandler(async (req, res) => {
     res.status(500).json({ message: 'Failed to edit product' })
   }
 })
+
 export {
   allProducts,
   addProducts,
