@@ -1,4 +1,4 @@
-import path from 'path'
+import path, { dirname } from 'path'
 import express from 'express'
 import dotenv from 'dotenv'
 import user from './routes/user.js'
@@ -9,10 +9,14 @@ import cart from './routes/cart.js'
 
 import { errorHandler, notFound } from './middleware/error.js'
 import cookieParser from 'cookie-parser'
+import { fileURLToPath } from 'url'
 
 dotenv.config()
 
 const PORT = process.env.PORT || 5000
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 const app = express()
 
@@ -20,6 +24,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use(cookieParser())
+
+// Serve static files from the 'uploads' folder
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 app.use('/api/users', user)
 app.use('/api/category', category)

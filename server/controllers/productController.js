@@ -101,7 +101,8 @@ const myProducts = asyncHandler(async (req, res) => {
 
 //POST /api/products/add
 const addProducts = asyncHandler(async (req, res) => {
-  const { title, price, description, image, categoryId } = req.body
+  const { title, price, description, categoryId } = req.body
+  const image = req.file ? `/uploads/${req.file.filename}` : null
 
   if (!title || !price || !description || !image || !categoryId) {
     return res.status(400).json({ message: 'All fields are required!' })
@@ -171,6 +172,10 @@ const removeProducts = asyncHandler(async (req, res) => {
 const editProducts = asyncHandler(async (req, res) => {
   const data = req.body
   const id = data.id
+
+  if (req.file) {
+    data.image = `/uploads/${req.file.filename}`
+  }
 
   try {
     const updatedProduct = await prisma.product.update({
