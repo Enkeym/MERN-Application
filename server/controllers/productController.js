@@ -1,6 +1,12 @@
+import path, { dirname } from 'path'
+import fs from 'fs'
 import asyncHandler from 'express-async-handler'
 import { prisma } from '../../prisma/prisma-client.js'
 import logger from '../utils/logger.js'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 // GET /api/products
 const allProducts = asyncHandler(async (req, res) => {
@@ -161,6 +167,14 @@ const removeProducts = asyncHandler(async (req, res) => {
   const { id } = req.params
 
   try {
+    const product = await prisma.product.findUnique({
+      where: { id }
+    })
+
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' })
+    }
+
     await prisma.productInOrder.deleteMany({
       where: { productId: id }
     })
@@ -169,16 +183,29 @@ const removeProducts = asyncHandler(async (req, res) => {
       where: { productId: id }
     })
 
-    const deleteProduct = await prisma.product.delete({
+    // Удаление изображения
+    if (product.image) {
+      const oldImagePath = path.join(__dirname, '..', product.image)
+      fs.unlink(oldImagePath, (err) => {
+        if (err) {
+          logger.error(`Failed to delete old image: ${err.message}`)
+        } else {
+          logger.info(`Successfully deleted old image: ${oldImagePath}`)
+        }
+      })
+    }
+
+    const deletedProduct = await prisma.product.delete({
       where: { id }
     })
 
-    res.status(200).json(deleteProduct)
+    res.status(200).json(deletedProduct)
   } catch (error) {
     logger.error(`Error in removeProducts: ${error.message}`)
     res.status(500).json({ message: 'Failed to remove product' })
   }
 })
+
 // PUT /api/products/edit/:id
 const editProducts = asyncHandler(async (req, res) => {
   const { title, price, description, categoryId } = req.body
@@ -197,6 +224,18 @@ const editProducts = asyncHandler(async (req, res) => {
 
     if (!existingProduct) {
       return res.status(404).json({ message: 'Product not found' })
+    }
+
+    //Удаление старого изображения
+    if (req.file && existingProduct.image) {
+      const oldImagePath = path.join(__dirname, '..', existingProduct.image)
+
+      try {
+        fs.unlinkSync(oldImagePath)
+        logger.info(`Old image deleted: ${oldImagePath}`)
+      } catch (err) {
+        logger.error(`Failed to delete old image: ${err.message}`)
+      }
     }
 
     const updatedProduct = await prisma.product.update({

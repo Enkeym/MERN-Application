@@ -105,3 +105,14 @@
 {"level":"error","message":"Error in removeProducts: \nInvalid `prisma.product.delete()` invocation:\n\n\nForeign key constraint failed on the field: `foreign key`","timestamp":"2024-08-23T14:00:40.619Z"}
 {"level":"error","message":"Error in removeProducts: \nInvalid `prisma.product.delete()` invocation:\n\n\nForeign key constraint failed on the field: `foreign key`","timestamp":"2024-08-23T14:02:27.047Z"}
 {"level":"error","message":"Error in removeProducts: \nInvalid `prisma.product.delete()` invocation:\n\n\nForeign key constraint failed on the field: `foreign key`","timestamp":"2024-08-23T14:02:27.362Z"}
+{"level":"error","message":"Error in editProducts: path is not defined","timestamp":"2024-08-23T15:20:40.189Z"}
+{"level":"error","message":"Error in editProducts: path is not defined","timestamp":"2024-08-23T15:20:40.464Z"}
+{"level":"error","message":"Error in editProducts: __dirname is not defined","timestamp":"2024-08-23T15:21:41.357Z"}
+{"level":"error","message":"Error in editProducts: __dirname is not defined","timestamp":"2024-08-23T15:21:41.891Z"}
+{"level":"info","message":"Old image deleted: C:\\Users\\Julia\\Documents\\Work\\project\\server\\uploads\\image-1724426431321.png","timestamp":"2024-08-23T15:23:50.388Z"}
+{"level":"info","message":"Old image deleted: C:\\Users\\Julia\\Documents\\Work\\project\\server\\uploads\\image-1724426662184.png","timestamp":"2024-08-23T15:25:46.844Z"}
+{"level":"error","message":"Error in removeProducts: product is not defined","timestamp":"2024-08-23T15:25:50.615Z"}
+{"level":"error","message":"Error in removeProducts: product is not defined","timestamp":"2024-08-23T15:25:51.176Z"}
+{"level":"info","message":"Successfully deleted old image: C:\\Users\\Julia\\Documents\\Work\\project\\server\\uploads\\image-1724426746837.png","timestamp":"2024-08-23T15:28:32.860Z"}
+{"level":"info","message":"Old image deleted: C:\\Users\\Julia\\Documents\\Work\\project\\server\\uploads\\image-1724426932162.png","timestamp":"2024-08-23T15:28:59.326Z"}
+{"level":"info","message":"Successfully deleted old image: C:\\Users\\Julia\\Documents\\Work\\project\\server\\uploads\\image-1724426939320.png","timestamp":"2024-08-23T15:29:04.345Z"}

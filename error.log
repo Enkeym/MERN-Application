@@ -105,3 +105,9 @@
 {"level":"error","message":"Error in removeProducts: \nInvalid `prisma.product.delete()` invocation:\n\n\nForeign key constraint failed on the field: `foreign key`","timestamp":"2024-08-23T14:00:40.619Z"}
 {"level":"error","message":"Error in removeProducts: \nInvalid `prisma.product.delete()` invocation:\n\n\nForeign key constraint failed on the field: `foreign key`","timestamp":"2024-08-23T14:02:27.047Z"}
 {"level":"error","message":"Error in removeProducts: \nInvalid `prisma.product.delete()` invocation:\n\n\nForeign key constraint failed on the field: `foreign key`","timestamp":"2024-08-23T14:02:27.362Z"}
+{"level":"error","message":"Error in editProducts: path is not defined","timestamp":"2024-08-23T15:20:40.189Z"}
+{"level":"error","message":"Error in editProducts: path is not defined","timestamp":"2024-08-23T15:20:40.464Z"}
+{"level":"error","message":"Error in editProducts: __dirname is not defined","timestamp":"2024-08-23T15:21:41.357Z"}
+{"level":"error","message":"Error in editProducts: __dirname is not defined","timestamp":"2024-08-23T15:21:41.891Z"}
+{"level":"error","message":"Error in removeProducts: product is not defined","timestamp":"2024-08-23T15:25:50.615Z"}
+{"level":"error","message":"Error in removeProducts: product is not defined","timestamp":"2024-08-23T15:25:51.176Z"}
