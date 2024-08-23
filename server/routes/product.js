@@ -8,7 +8,7 @@ import {
   productId,
   removeProducts
 } from '../controllers/productController.js'
-import upload from '../utils/multerConfig.js'
+import upload from '../middleware/multerConfig.js'
 
 const router = express.Router()
 

@@ -5,6 +5,7 @@ import {toast} from 'react-toastify';
 import {useNavigate} from 'react-router-dom';
 import FormOption from '../../../ui/form/FormOption';
 import FormInput from '../../../ui/form/FormInput';
+import FileInput from '../../../ui/form/FileInput';
 
 
 const AddProducts = () => {
@@ -12,7 +13,7 @@ const AddProducts = () => {
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(null);
   const [categoryId, setCategoryId] = useState('');
   const [addProducts] = useAddProductMutation();
   const navigate = useNavigate();
@@ -30,13 +31,26 @@ const AddProducts = () => {
     setCategoryId('');
   };
 
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
 
   const handleAddProducts = async (e) => {
     e.preventDefault();
 
     try {
+      const formData = new FormData();
+      formData.append('title', title)
+      formData.append('price', price)
+      formData.append('description', description)
+      formData.append('categoryId', categoryId)
 
-      await addProducts({title, price, description, image, categoryId}).unwrap();
+      if (image) {
+        formData.append('image', image)
+      }
+
+      await addProducts(formData).unwrap();
       toast.success('Product created successfully!');
       handleClose();
       navigate('/products/my');
@@ -44,9 +58,9 @@ const AddProducts = () => {
       toast.error(err?.data?.message || err.error);
     }
   };
+
   return (
     <>
-
       <Button variant='primary' onClick={handleShow} className='m-1'>
         Add Product
       </Button>
@@ -85,12 +99,9 @@ const AddProducts = () => {
               type={'text'}
               required
             />
-            <FormInput
+            <FileInput
               name={'Image'}
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-              placeholder={'Image as URL'}
-              type={'text'}
+              onChange={handleImageChange}
               required
             />
             <FormOption

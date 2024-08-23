@@ -1,6 +1,6 @@
-import {Card, Container} from 'react-bootstrap' 
-import {Link} from 'react-router-dom' 
-import Paginator from '../../pagination/Paginator' 
+import {Card, Container} from 'react-bootstrap'
+import {Link} from 'react-router-dom'
+import Paginator from '../../pagination/Paginator'
 
 
 
@@ -26,6 +26,7 @@ const MainProduct = ({data}) => {
 
         {currentPageProducts?.map((items) => {
           const {id, title, image, description, price} = items
+          console.log(image)
           return (
             <Link
               to={`/products/${id}`}

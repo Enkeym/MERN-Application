@@ -1,4 +1,4 @@
-import {Form} from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 
 const FormInput = ({
   value,
@@ -11,7 +11,7 @@ const FormInput = ({
   pattern = false,
   min,
   step,
-  controlId
+  controlId 
 }) => {
   return (
     <Form.Group className='mb-3'>
@@ -25,9 +25,9 @@ const FormInput = ({
         required={required}
         title={title}
         pattern={pattern || undefined}
-        min={min !== false ? min : undefined}
-        step={step !== false ? step : undefined}
-        id={controlId}
+        min={min !== false ? min : undefined} 
+        step={step !== false ? step : undefined} 
+        id={controlId} 
       />
     </Form.Group>
   );

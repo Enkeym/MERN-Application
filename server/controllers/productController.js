@@ -104,34 +104,40 @@ const addProducts = asyncHandler(async (req, res) => {
   const { title, price, description, categoryId } = req.body
   const image = req.file ? `/uploads/${req.file.filename}` : null
 
-  if (!title || !price || !description || !image || !categoryId) {
+  if (!title || !price || !description || !categoryId || !image) {
     return res.status(400).json({ message: 'All fields are required!' })
   }
 
-  const userExists = await prisma.user.findUnique({
-    where: { id: req.user.id }
-  })
-  if (!userExists) {
-    return res.status(400).json({ message: 'User not found' })
-  }
-
-  const categoryExists = await prisma.category.findUnique({
-    where: { slug: categoryId }
-  })
-
-  if (!categoryExists) {
-    return res.status(400).json({ message: 'Category not found' })
-  }
-
-  const productExists = await prisma.product.findFirst({
-    where: { title, price, description, userId: req.user.id }
-  })
-
-  if (productExists) {
-    return res.status(400).json({ message: 'Product already exists' })
-  }
-
   try {
+    const userExists = await prisma.user.findUnique({
+      where: { id: req.user.id }
+    })
+
+    if (!userExists) {
+      return res.status(400).json({ message: 'User not found' })
+    }
+
+    const categoryExists = await prisma.category.findUnique({
+      where: { slug: categoryId }
+    })
+
+    if (!categoryExists) {
+      return res.status(400).json({ message: 'Category not found' })
+    }
+
+    const productExists = await prisma.product.findFirst({
+      where: {
+        title,
+        price,
+        description,
+        userId: req.user.id
+      }
+    })
+
+    if (productExists) {
+      return res.status(400).json({ message: 'Product already exists' })
+    }
+
     const createProduct = await prisma.product.create({
       data: {
         title,
@@ -170,8 +176,10 @@ const removeProducts = asyncHandler(async (req, res) => {
 
 //PUT /api/products/edit/:id
 const editProducts = asyncHandler(async (req, res) => {
-  const data = req.body
-  const id = data.id
+  const { title, price, description, categoryId } = req.body
+  const id = req.params.id
+
+  let data = { title, price, description, categoryId }
 
   if (req.file) {
     data.image = `/uploads/${req.file.filename}`
@@ -179,9 +187,7 @@ const editProducts = asyncHandler(async (req, res) => {
 
   try {
     const updatedProduct = await prisma.product.update({
-      where: {
-        id
-      },
+      where: { id },
       data
     })
 
@@ -191,7 +197,6 @@ const editProducts = asyncHandler(async (req, res) => {
     res.status(500).json({ message: 'Failed to edit product' })
   }
 })
-
 export {
   allProducts,
   addProducts,

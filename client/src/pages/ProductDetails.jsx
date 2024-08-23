@@ -2,19 +2,20 @@ import {Link, Navigate, useNavigate, useParams} from 'react-router-dom';
 import Loader from '../components/loader/Loader';
 import {Button, Card, Container} from 'react-bootstrap';
 import {useProductByIdQuery, useRemoveProductMutation} from '../app/services/productsApi';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {toast} from 'react-toastify';
 import AddToCartButton from '../components/cart/AddToCart';
 import QuantitySelector from '../components/cart/QuantitySelector';
+import {setPage} from '../features/productsSlice';
 
 const ProductDetails = () => {
   const navigate = useNavigate();
   const {id} = useParams();
   const {data, isLoading, isError} = useProductByIdQuery(id);
   const [remove] = useRemoveProductMutation();
+  const dispatch = useDispatch();
   const {userInfo} = useSelector((state) => state.auth);
   const {items: cartItems = []} = useSelector((state) => state.cart);
-  console.log(cartItems)
 
   if (isLoading) return <Loader />;
   if (isError || !data) return <Navigate to='/' />;
@@ -29,6 +30,7 @@ const ProductDetails = () => {
     try {
       await remove(id).unwrap()
       toast.success('Successfully deleted!');
+      dispatch(setPage(1))
       navigate('/products');
     } catch (err) {
       toast.error(err?.data?.message || err.error);
