@@ -24,6 +24,15 @@ export const categoryApi = api.injectEndpoints({
         }
       }),
       invalidatesTags: [{ type: 'Categories' }]
+    }),
+
+    removeCategories: builder.mutation({
+      query: (body) => ({
+        url: `${CATEGORY_URL}/remove`,
+        method: 'POST',
+        body
+      }),
+      invalidatesTags: [{ type: 'Categories' }]
     })
   })
 })

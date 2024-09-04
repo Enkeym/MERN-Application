@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import { prisma } from '../../prisma/prisma-client.js'
-import logger from '../utils/logger.js' 
+import logger from '../utils/logger.js'
 
 // GET /api/category
 const allCategory = asyncHandler(async (req, res) => {
@@ -68,4 +68,42 @@ const addCategory = asyncHandler(async (req, res) => {
   }
 })
 
-export { allCategory, addCategory, singleCategory }
+// POST /api/category/remove/:id
+const removeCategory = asyncHandler(async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const category = await prisma.category.findUnique({
+      where: {
+        id
+      }
+    })
+
+    if (!category) {
+      return res.status(400).json({ message: 'Category not found!' })
+    }
+
+    const productInCategory = await prisma.product.findFirst({
+      where: {
+        categoryId: category.slug
+      }
+    })
+
+    if (productInCategory) {
+      return res
+        .status(400)
+        .json({ message: 'Cannot delete category with products!' })
+    }
+
+    await prisma.category.delete({
+      where: { id }
+    })
+
+    res.status(204).end()
+  } catch (error) {
+    logger.error(`Error in removeCategory: ${error.message}`)
+    res.status(500).json({ message: 'Failed to delete category' })
+  }
+})
+
+export { allCategory, addCategory, singleCategory, removeCategory }

@@ -60,6 +60,8 @@ const AddCategory = () => {
               placeholder='name'
             />
 
+            {/* список категорий */}
+
             <Button type='submit' variant='primary' className='me-2'>
               Add
             </Button>
