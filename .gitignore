@@ -17,7 +17,7 @@ yarn-error.log*
 # Prisma
 prisma/migrations/
 prisma/dev.db
-prisma/prisma-client.js
+prisma/dev.db-journal
 
 # IDE/Editor
 .vscode/
