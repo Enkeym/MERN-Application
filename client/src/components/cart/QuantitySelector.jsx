@@ -2,11 +2,14 @@ import {useState} from "react"
 import {useEditCartQuantityMutation} from "../../app/services/cartApi"
 import {toast} from "react-toastify"
 import {Button, Form, InputGroup} from "react-bootstrap"
+import {useDispatch} from "react-redux"
+import {updateCartQuantity} from "../../features/cartSlice"
 
 
 const QuantitySelector = ({item}) => {
   const [quantity, setQuantity] = useState(item.quantity)
   const [editCartQuantity, {isLoading}] = useEditCartQuantityMutation()
+  const dispatch = useDispatch()
 
   const handleQuantityChange = async (e) => {
     const value = Math.max(1, Number(e.target.value))
@@ -15,19 +18,17 @@ const QuantitySelector = ({item}) => {
 
   const handleUpdate = async (newQuantity) => {
     try {
-      setQuantity(newQuantity)
       await editCartQuantity({productId: item.productId, quantity: newQuantity}).unwrap()
+      setQuantity(newQuantity)
+      dispatch(updateCartQuantity({productId: item.productId, quantity: newQuantity}))
+      toast.success('Quantity updated!')
     } catch (err) {
       toast.error(err?.data?.message || 'Failed to update quantity')
     }
   }
 
-  const increaseQuantity = () => handleUpdate(quantity + 1)
-  const decreaseQuantity = () => {
-    if (quantity > 1) {
-      handleUpdate(quantity - 1)
-    }
-  }
+  const increaseQuantity = () => handleUpdate(quantity + 1);
+  const decreaseQuantity = () => handleUpdate(quantity > 1 ? quantity - 1 : 1);
 
   return (
     <InputGroup>

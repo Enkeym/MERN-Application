@@ -1,9 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const saveCartToLocalStorage = (items) => {
+  try {
+    localStorage.setItem('CartItems', JSON.stringify(items))
+  } catch (error) {
+    console.log('Error saving cart items to local storage:', error)
+  }
+}
+
+const loadCartFromLocalStorage = () => {
+  try {
+    const savedCart = localStorage.getItem('CartItems')
+    return savedCart ? JSON.parse(savedCart) : []
+  } catch (error) {
+    console.log('Error loading cart items from local storage:', error)
+  }
+}
+
 const initialState = {
-  items: localStorage.getItem('CartItems')
-    ? JSON.parse(localStorage.getItem('CartItems'))
-    : [],
+  items: loadCartFromLocalStorage(),
   status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null
 }
@@ -14,7 +29,7 @@ const cartSlice = createSlice({
   reducers: {
     setCartItems: (state, action) => {
       state.items = action.payload
-      localStorage.setItem('CartItems', JSON.stringify(action.payload))
+      saveCartToLocalStorage(state.items)
     },
     addToCart: (state, action) => {
       const item = state.items.find(
@@ -26,17 +41,27 @@ const cartSlice = createSlice({
       } else {
         state.items.push(action.payload)
       }
-      localStorage.setItem('CartItems', JSON.stringify(state.items))
+      saveCartToLocalStorage(state.items)
     },
     removeFromCart: (state, action) => {
       state.items = state.items.filter(
         (item) => item.productId !== action.payload.productId
       )
-      localStorage.setItem('CartItems', JSON.stringify(state.items))
+      saveCartToLocalStorage(state.items)
     },
     clearCart: (state) => {
       state.items = []
       localStorage.removeItem('CartItems')
+    },
+    updateCartQuantity: (state, action) => {
+      const item = state.items.find(
+        (i) => i.productId === action.payload.productId
+      )
+      if (item) {
+        item.quantity = action.payload.quantity
+        item.total = item.quantity * item.price
+      }
+      saveCartToLocalStorage(state.items)
     },
     setCartStatus: (state, action) => {
       state.status = action.payload
@@ -52,6 +77,7 @@ export const {
   addToCart,
   removeFromCart,
   clearCart,
+  updateCartQuantity,
   setCartStatus,
   setCartError
 } = cartSlice.actions
