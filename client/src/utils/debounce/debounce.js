@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-/* Функция для создания задержки */
+/* Функция для создания задержки во время поиска */
 export function useDebounce(value, delay) {
   const [debounced, setDebounced] = useState(value)
 
@@ -9,9 +9,8 @@ export function useDebounce(value, delay) {
       setDebounced(value)
     }, delay)
 
-    // Очищаем таймер при изменении значения или задержки
     return () => clearTimeout(handler)
   }, [value, delay])
 
-  return debounced
+  return debounced.charAt(0) === ' ' ? debounced.replace(/\s/g, '') : debounced
 }

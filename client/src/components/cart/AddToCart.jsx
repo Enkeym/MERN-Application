@@ -32,7 +32,7 @@ const AddToCartButton = ({product, variant = 'primary', size = 'lg', className =
 
         dispatch(addToCartRedux(cartItem));
 
-        toast.success('Added to cart!');
+        /* toast.success('Added to cart!'); */
       } catch (error) {
         toast.error('Failed to add to cart. Please try again.');
       }
