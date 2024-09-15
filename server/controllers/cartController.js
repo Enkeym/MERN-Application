@@ -117,17 +117,10 @@ const addToCart = asyncHandler(async (req, res) => {
 // Удаление продукта из корзины
 const removeFromCart = asyncHandler(async (req, res) => {
   const { productId } = req.params
-  const { quantity = 1 } = req.body
   const userId = req.user?.id
 
   if (!userId) {
     return res.status(401).json({ message: 'User not authenticated!' })
-  }
-
-  if (isNaN(quantity) || quantity <= 0) {
-    return res
-      .status(400)
-      .json({ message: 'Quantity must be a positive number!' })
   }
 
   try {
@@ -146,21 +139,9 @@ const removeFromCart = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: 'Product not found in cart' })
     }
 
-    if (cartProduct.quantity <= quantity) {
-      await prisma.cartProduct.delete({
-        where: { id: cartProduct.id }
-      })
-    } else {
-      await prisma.cartProduct.update({
-        where: { id: cartProduct.id },
-        data: {
-          quantity: cartProduct.quantity - quantity,
-          total:
-            (cartProduct.total / cartProduct.quantity) *
-            (cartProduct.quantity - quantity)
-        }
-      })
-    }
+    await prisma.cartProduct.delete({
+      where: { id: cartProduct.id }
+    })
 
     res.status(200).json({ message: 'Product removed from cart' })
   } catch (error) {

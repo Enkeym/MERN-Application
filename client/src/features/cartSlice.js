@@ -43,16 +43,6 @@ const cartSlice = createSlice({
       }
       saveCartToLocalStorage(state.items)
     },
-    removeFromCart: (state, action) => {
-      state.items = state.items.filter(
-        (item) => item.productId !== action.payload.productId
-      )
-      saveCartToLocalStorage(state.items)
-    },
-    clearCart: (state) => {
-      state.items = []
-      localStorage.removeItem('CartItems')
-    },
     updateCartQuantity: (state, action) => {
       const item = state.items.find(
         (i) => i.productId === action.payload.productId
@@ -62,6 +52,16 @@ const cartSlice = createSlice({
         item.total = item.quantity * item.price
       }
       saveCartToLocalStorage(state.items)
+    },
+    removeFromLocalCart: (state, action) => {
+      state.items = state.items.filter(
+        (item) => item.productId !== action.payload.productId
+      )
+      saveCartToLocalStorage(state.items)
+    },
+    clearCart: (state) => {
+      state.items = []
+      localStorage.removeItem('CartItems')
     },
     setCartStatus: (state, action) => {
       state.status = action.payload
@@ -75,7 +75,7 @@ const cartSlice = createSlice({
 export const {
   setCartItems,
   addToCart,
-  removeFromCart,
+  removeFromLocalCart,
   clearCart,
   updateCartQuantity,
   setCartStatus,

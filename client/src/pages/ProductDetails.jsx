@@ -21,17 +21,18 @@ const ProductDetails = () => {
   if (isError || !data) return <Navigate to='/' />;
 
   const {image, title, price, description, userId} = data;
-  const apiUrl = import.meta.env.VITE_API_URL
+  const apiUrl = import.meta.env.VITE_API_URL;
 
-  const cartItem = cartItems.find(item => item.productId === id);
+  // Поиск товара в корзине по его productId
+  const cartItem = cartItems.find((item) => item.productId === id);
 
   const handleDelete = async (e) => {
     e.preventDefault();
 
     try {
-      await remove(id).unwrap()
+      await remove(id).unwrap();
       toast.success('Successfully deleted!');
-      dispatch(setPage(1))
+      dispatch(setPage(1));
       navigate('/products');
     } catch (err) {
       toast.error(err?.data?.message || err.error);
@@ -58,7 +59,11 @@ const ProductDetails = () => {
               </Button>
             </>
           ) : (
-            cartItem ? <QuantitySelector item={cartItem} /> : <AddToCartButton product={data} />
+            cartItem ? (
+              <QuantitySelector productId={cartItem.productId} />
+            ) : (
+              <AddToCartButton product={data} />
+            )
           )}
         </Card.Body>
       </Card>

@@ -1,12 +1,18 @@
 import { api } from './api'
-import { providesList } from './api'
+
 const CART_URL = '/api/cart'
 
 export const cartApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getCart: builder.query({
       query: () => CART_URL,
-      providesTags: (result) => providesList(result, 'Cart')
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: 'Cart', id })),
+              { type: 'Cart', id: 'LIST' }
+            ]
+          : [{ type: 'Cart', id: 'LIST' }]
     }),
 
     addToCart: builder.mutation({
@@ -15,7 +21,7 @@ export const cartApi = api.injectEndpoints({
         method: 'POST',
         body: item
       }),
-      invalidatesTags: [{ type: 'Cart' }]
+      invalidatesTags: [{ type: 'Cart', id: 'LIST' }]
     }),
 
     removeFromCart: builder.mutation({
@@ -23,7 +29,7 @@ export const cartApi = api.injectEndpoints({
         url: `${CART_URL}/remove/${productID}`,
         method: 'POST'
       }),
-      invalidatesTags: [{ type: 'Cart' }]
+      invalidatesTags: [{ type: 'Cart', id: 'LIST' }]
     }),
 
     editCartQuantity: builder.mutation({
