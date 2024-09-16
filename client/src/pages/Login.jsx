@@ -10,6 +10,10 @@ import Loader from '../components/loader/Loader'
 import FormInput from '../ui/form/FormInput'
 import {setCartItems} from '../features/cartSlice'
 
+// Паттерны для валидации полей
+const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const passwordPattern = /^[a-zA-Z0-9]{6,16}$/;
+
 
 const Login = () => {
 
