@@ -10,8 +10,8 @@ import Loader from '../components/loader/Loader';
 import FormInput from '../ui/form/FormInput';
 
 // Паттерны для валидации полей
-const namePattern = /^[A-Za-z0-9]{1,9}$/;
-const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,16}$/;
+const namePattern = /^[A-Za-z0-9]{1,16}$/;
+const passwordPattern = /^(?=.*[a-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,16}$/;
 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const Register = () => {
@@ -61,7 +61,7 @@ const Register = () => {
       error = 'Please enter a valid email address.';
     }
     if (name === 'password' && !passwordPattern.test(value)) {
-      error = 'Password must be 8-16 characters, include at least one uppercase letter, one lowercase letter, and a number.';
+      error = 'Password must be 6-16 characters and contain only letters and numbers.';
     }
     if (name === 'confirmPassword' && value !== formData.password) {
       error = 'Passwords do not match.';
@@ -84,7 +84,7 @@ const Register = () => {
     }
 
     try {
-      const res = await register({name, email, password}).unwrap();
+      const res = await register({name, email: email.toLowerCase(), password}).unwrap();
       dispatch(setCredentials(res));
       navigate('/products/my');
     } catch (error) {

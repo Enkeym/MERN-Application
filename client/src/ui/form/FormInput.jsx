@@ -1,3 +1,4 @@
+import React from 'react';
 import {Form} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
@@ -68,4 +69,4 @@ FormInput.propTypes = {
   autoFocus: PropTypes.bool
 };
 
-export default FormInput;
+export default React.memo(FormInput);

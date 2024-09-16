@@ -12,14 +12,22 @@ import {setCartItems} from '../features/cartSlice'
 
 // Паттерны для валидации полей
 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const passwordPattern = /^[a-zA-Z0-9]{6,16}$/;
+const passwordPattern = /^[a-z0-9]{6,16}$/;
 
 
 const Login = () => {
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  })
 
+  const [errors, setErrors] = useState({
+    email: '',
+    password: ''
+  })
+
+  const {email, password} = formData
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -37,16 +45,43 @@ const Login = () => {
     }
   }, [navigate, userInfo])
 
+  const validateField = (name, value) => {
+    let error = '';
+
+    if (name === 'email' && !emailPattern.test(value)) {
+      error = 'Please enter a valid email address.';
+    }
+
+    if (name === 'password' && !passwordPattern.test(value)) {
+      error = 'Password must be 6-16 characters and contain only letters and numbers.';
+    }
+
+    setErrors({...errors, [name]: error});
+  }
+
+  const onChange = (e) => {
+    const {name, value} = e.target;
+    setFormData({...formData, [name]: value})
+
+    validateField(name, value)
+  }
+
+  const isFormValid = () => {
+    return !Object.values(errors).some((error) => error) && Object.values(formData).every((value) => value !== '')
+  }
 
   const submitHandler = async (e) => {
     e.preventDefault()
 
+    if (!isFormValid()) {
+      toast.error('Please fix the errors before submitting')
+      return
+    }
+
+
     try {
-
-      const res = await login({email, password}).unwrap()
-
+      const res = await login({email: email.toLowerCase(), password}).unwrap()
       dispatch(setCredentials(res))
-
       const cartItems = localStorage.getItem('CartItems')
       if (cartItems) {
         dispatch(setCartItems(JSON.parse(cartItems)))
@@ -65,28 +100,28 @@ const Login = () => {
       <h1>Sign In</h1>
       <Form className='mt-3' onSubmit={submitHandler}>
         <FormInput
-          name='Email'
-          type={'email'}
-          placeholder={'Email'}
+          name='email'
+          type='email'
+          placeholder='Email'
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={onChange}
+          errorMessage={errors.email}
           required
         />
 
         <FormInput
-          name='Password'
-          type={'password'}
-          placeholder={'Password'}
+          name='password'
+          type='password'
+          placeholder='Password'
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          pattern='[a-zA-Z0-9]*'
-          title='Only letters and numbers are allowed'
+          onChange={onChange}
+          errorMessage={errors.password}
           required
         />
 
         {isLoading && <Loader />}
 
-        <Button type='submit' variant='primary' className='mt-3'>
+        <Button type='submit' variant='primary' className='mt-3' disabled={!isFormValid()}>
           Sign In
         </Button>
 

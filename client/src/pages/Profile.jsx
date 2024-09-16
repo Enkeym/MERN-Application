@@ -8,34 +8,66 @@ import {useUpdateMutation} from '../app/services/usersApi';
 import {setCredentials} from '../features/authSlice';
 import FormInput from '../ui/form/FormInput';
 
-const Profile = () => {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+const passwordPattern = /^[a-z0-9]{6,16}$/;
 
+const Profile = () => {
+  const [formData, setFormData] = useState({
+    password: '',
+    confirmPassword: ''
+  })
+
+  const [errors, setErrors] = useState({
+    password: '',
+    confirmPassword: ''
+  })
+
+  const {password, confirmPassword} = formData
   const dispatch = useDispatch();
   const {userInfo} = useSelector((state) => state.auth);
   const [update, {isLoading}] = useUpdateMutation();
 
   useEffect(() => {
-    setPassword('');
-    setConfirmPassword('');
+    setFormData({password: '', confirmPassword: ''})
   }, [userInfo]);
+
+  const validateField = (name, value) => {
+    let error = '';
+
+    if (name === 'password' && !passwordPattern.test(value)) {
+      error = 'Password must be 6-16 characters and contain only letters and numbers.';
+    }
+
+    if (name === 'confirmPassword' && value !== formData.password) {
+      error = 'Passwords do not match.';
+    }
+
+    setErrors((prev) => ({...prev, [name]: error}));
+  }
+
+  const onChange = (e) => {
+    const {name, value} = e.target;
+    setFormData((prev) => ({...prev, [name]: value}));
+    validateField(name, value);
+  }
+
+  const isFormValid = () => {
+    return !Object.values(errors).some((error) => error) && Object.values(formData).every((value) => value !== '');
+  }
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    if (password === confirmPassword) {
-      try {
-        const res = await update({password}).unwrap();
-        dispatch(setCredentials({...res}));
-        toast.success('Profile updated');
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
-      }
-    } else {
-      toast.error('Passwords do not match');
-      setPassword('');
-      setConfirmPassword('');
+    if (!isFormValid()) {
+      toast.error('Please fix the errors before submitting');
+      return;
+    }
+
+    try {
+      const res = await update({password}).unwrap()
+      dispatch(setCredentials(res))
+      toast.success('Password updated successfully')
+    } catch (error) {
+      toast.error(error?.data?.message || 'Failed to update password')
     }
   };
 
@@ -44,37 +76,45 @@ const Profile = () => {
       <h1>Profile</h1>
 
       <Form onSubmit={submitHandler}>
-        <Form.Group className='my-2'>
-          <Form.Label>Name:</Form.Label>
-          <Form.Control type='text' readOnly value={userInfo.name} />
-        </Form.Group>
-
-        <Form.Group className='my-2'>
-          <Form.Label>Email:</Form.Label>
-          <Form.Control type='email' readOnly value={userInfo.email} />
-        </Form.Group>
+        <FormInput
+          name='Name'
+          type='text'
+          placeholder='Name'
+          value={userInfo.name}
+          readOnly
+        />
 
         <FormInput
-          name='New Password'
+          name='Email'
+          type='email'
+          placeholder='Email'
+          value={userInfo.email}
+          readOnly
+        />
+
+        <FormInput
+          name='password'
           type='password'
           placeholder='Enter new password'
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={onChange}
+          errorMessage={errors.password}
           required
         />
 
         <FormInput
-          name='Confirm Password'
+          name='confirmPassword'
           type='password'
           placeholder='Confirm new password'
           value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          onChange={onChange}
+          errorMessage={errors.confirmPassword}
           required
         />
 
         {isLoading && <Loader />}
 
-        <Button type='submit' variant='primary' className='mt-3'>
+        <Button type='submit' variant='primary' className='mt-3' disabled={!isFormValid()}>
           Save
         </Button>
       </Form>
