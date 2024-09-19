@@ -45,12 +45,21 @@ const FormProduct = ({onSubmit, initialData = {}, isLoading}) => {
     }));
   };
 
+  const onCategoryChange = (selectedCategory) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      categoryId: selectedCategory,
+    }));
+  };
+
+
   const handleImageChange = (e) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
       image: e.target.files[0],
     }));
   };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -101,16 +110,16 @@ const FormProduct = ({onSubmit, initialData = {}, isLoading}) => {
         type="text"
         required
       />
+      <FormOption
+        value={categoryId}
+        onChange={onCategoryChange}
+        required
+      />
       <FileInput
         name="image"
         onChange={handleImageChange}
-      />
-      <FormOption
-        name="categoryId"
-        value={categoryId}
-        onChange={onChange}
-        initialName="Select Category"
-        required
+        label="Upload Product Image"
+        maxSizeMB={5}
       />
       {isLoading ? (
         <Button variant="primary" disabled>

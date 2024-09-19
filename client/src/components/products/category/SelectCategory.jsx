@@ -4,12 +4,12 @@ import {changeCategory, setPage} from '../../../features/productsSlice';
 import FormOption from '../../../ui/options/FormOption';
 
 
+
 const SelectCategory = () => {
   const dispatch = useDispatch();
-  const [categories, setCategories] = useState();
+  const [categories, setCategories] = useState('');
 
-  const handleChange = (e) => {
-    const selectedCategory = e.target.value;
+  const handleChange = (selectedCategory) => {
     dispatch(changeCategory(selectedCategory));
     dispatch(setPage(1))
     setCategories(selectedCategory);
