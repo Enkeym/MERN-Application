@@ -1,12 +1,10 @@
-import {useEffect, useRef, useState} from 'react'
-import {Button, Form} from 'react-bootstrap'
-import FormInput from './FormInput'
-import FileInput from '../files/FileInput'
-import FormOption from '../options/FormOption'
+import {useEffect, useState, useRef} from 'react';
+import {Button, Form} from 'react-bootstrap';
+import FormInput from './FormInput';
+import FileInput from '../files/FileInput';
+import FormOption from '../options/FormOption';
 
 const FormProduct = ({onSubmit, initialData = {}, isLoading}) => {
-  const prevInitialDataRef = useRef();
-
   const [formData, setFormData] = useState({
     title: initialData.title || '',
     price: initialData.price || '',
@@ -15,10 +13,18 @@ const FormProduct = ({onSubmit, initialData = {}, isLoading}) => {
     image: null,
   });
 
+  const prevInitialDataRef = useRef(initialData);
   const {title, price, description, categoryId, image} = formData;
 
   useEffect(() => {
-    if (JSON.stringify(prevInitialDataRef.current) !== JSON.stringify(initialData)) {
+    const prevInitialData = prevInitialDataRef.current;
+
+    if (
+      prevInitialData.title !== initialData.title ||
+      prevInitialData.price !== initialData.price ||
+      prevInitialData.description !== initialData.description ||
+      prevInitialData.categoryId !== initialData.categoryId
+    ) {
       setFormData({
         title: initialData.title || '',
         price: initialData.price || '',
@@ -26,8 +32,9 @@ const FormProduct = ({onSubmit, initialData = {}, isLoading}) => {
         categoryId: initialData.categoryId || '',
         image: null,
       });
+
+      prevInitialDataRef.current = initialData;
     }
-    prevInitialDataRef.current = initialData;
   }, [initialData]);
 
   const onChange = (e) => {
@@ -46,58 +53,63 @@ const FormProduct = ({onSubmit, initialData = {}, isLoading}) => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const form = new FormData()
-    form.append('title', title)
-    form.append('price', price)
-    form.append('description', description)
-    form.append('categoryId', categoryId)
-
-    if (image) {
-      form.append('image', image)
+    if (!title || !price || !description || !categoryId) {
+      alert('Please fill in all required fields.');
+      return;
     }
 
-    onSubmit(form)
-  }
+    const form = new FormData();
+    form.append('title', title);
+    form.append('price', price);
+    form.append('description', description);
+    form.append('categoryId', categoryId);
+
+    if (image) {
+      form.append('image', image);
+    }
+
+    onSubmit(form);
+  };
 
   return (
     <Form onSubmit={handleSubmit}>
       <FormInput
-        name='Name'
+        name="title"
         value={title}
         onChange={onChange}
-        placeholder='Name'
-        type='text'
+        placeholder="Product Name"
+        type="text"
         required
       />
       <FormInput
-        name='Price'
+        name="price"
         value={price}
         onChange={onChange}
-        placeholder='Price'
-        type='number'
-        min='0'
-        step='0.01'
+        placeholder="Price"
+        type="number"
+        min="0"
+        step="0.01"
         required
       />
       <FormInput
-        name='Description'
+        name="description"
         value={description}
         onChange={onChange}
-        placeholder='Description'
-        type='text'
+        placeholder="Description"
+        type="text"
         required
       />
       <FileInput
-        name='Image'
+        name="image"
         onChange={handleImageChange}
       />
       <FormOption
-        name='Category'
+        name="categoryId"
         value={categoryId}
         onChange={onChange}
-        initialName={categoryId}
+        initialName="Select Category"
         required
       />
       {isLoading ? (
@@ -110,7 +122,7 @@ const FormProduct = ({onSubmit, initialData = {}, isLoading}) => {
         </Button>
       )}
     </Form>
-  )
-}
+  );
+};
 
-export default FormProduct
+export default FormProduct;
