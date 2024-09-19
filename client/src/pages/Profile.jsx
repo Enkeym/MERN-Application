@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {toast} from 'react-toastify';
 import {useUpdateMutation} from '../app/services/usersApi';
 import {setCredentials} from '../features/authSlice';
-import FormInput from '../ui/form/FormInput';
+import FormInput from '../ui/forms/FormInput';
 
 const passwordPattern = /^[a-z0-9]{6,16}$/;
 

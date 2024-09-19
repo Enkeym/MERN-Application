@@ -7,7 +7,7 @@ import {useRegisterMutation} from '../app/services/usersApi';
 import {setCredentials} from '../features/authSlice';
 import {toast} from 'react-toastify';
 import Loader from '../components/loader/Loader';
-import FormInput from '../ui/form/FormInput';
+import FormInput from '../ui/forms/FormInput';
 
 // Паттерны для валидации полей
 const namePattern = /^[A-Za-z0-9]{1,16}$/;

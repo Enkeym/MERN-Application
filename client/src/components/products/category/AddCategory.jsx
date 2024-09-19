@@ -3,7 +3,7 @@ import {Button, Form, Modal} from 'react-bootstrap';
 import {useAddCategoriesMutation} from '../../../app/services/categoryApi';
 import {useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
-import FormInput from '../../../ui/form/FormInput';
+import FormInput from '../../../ui/forms/FormInput';
 
 
 const AddCategory = () => {

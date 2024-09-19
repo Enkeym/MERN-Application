@@ -7,7 +7,7 @@ import {useLoginMutation} from '../app/services/usersApi'
 import {setCredentials} from '../features/authSlice'
 import {toast} from 'react-toastify'
 import Loader from '../components/loader/Loader'
-import FormInput from '../ui/form/FormInput'
+import FormInput from '../ui/forms/FormInput'
 import {setCartItems} from '../features/cartSlice'
 
 // Паттерны для валидации полей

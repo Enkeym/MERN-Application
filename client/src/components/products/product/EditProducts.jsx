@@ -4,10 +4,9 @@ import Loader from '../../loader/Loader';
 import {Button, Container, Form} from 'react-bootstrap';
 import {useEffect, useState} from 'react';
 import {toast} from 'react-toastify';
-import FormOption from '../../../ui/form/FormOption';
-import FormInput from '../../../ui/form/FormInput';
-import FileInput from '../../../ui/form/FileInput';
-
+import FormInput from '../../../ui/forms/FormInput';
+import FileInput from '../../../ui/files/FileInput';
+import FormOption from '../../../ui/options/FormOption';
 
 const EditProducts = () => {
   const navigate = useNavigate();
