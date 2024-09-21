@@ -1,63 +1,72 @@
-# Data Management Application
+# E-commerce Application
 
-This is a React-based data management application that allows users to perform CRUD operations on data fetched from a server. The application uses RTK Query for data fetching and state management and Material-UI for the user interface.
+Это полнофункциональное e-commerce приложение, разработанное на основе стека MERN (MongoDB, Express, React, Node.js). Приложение позволяет пользователям регистрироваться, добавлять товары в корзину, оформлять заказы, а также управлять товарами и категориями. В проекте используются современные инструменты для управления состоянием и взаимодействия с сервером, такие как Redux Toolkit и RTK Query.
 
-## Features
+## Функционал
 
-1. User Authentication
-2. Data Display in a Table
-3. Add New Data
-4. Edit Existing Data
-5. Delete Data
-6. Error Handling and Loading Indicators
+- **Регистрация и аутентификация пользователей** с защитой данных (JWT).
+- **Управление товарами**: добавление, редактирование и удаление товаров.
+- **Корзина покупок**: добавление и удаление товаров, изменение количества.
+- **Оформление заказов** и управление ими.
+- **Фильтрация товаров по категориям**.
+- **Панель управления для продавцов**.
 
-## Project Structure
+## Структура проекта
 
-- `src`
-  - `app`
-    - `api.js`
-    - `store.js`
-  - `features`
-    - `auth`
-      - `authSlice.js` - Redux slice for authentication
-  - `components`
-    - `DataTable.js` - Data table component
-  - `page`
-    - `AuthPage.js`
-  - `utils`
-    - `Spinner/jsx`
-  - `app.js`
-  - `maim.js`
+### Серверная часть (Node.js, Express, Prisma)
 
-## Getting Started
+- **`server/controllers`** — контроллеры для обработки логики управления заказами, товарами, категориями и пользователями.
+- **`server/routes`** — маршруты для различных частей API.
+- **`server/middleware`** — middleware для обработки ошибок, аутентификации и загрузки файлов.
+- **`server/utils`** — утилиты для генерации токенов и логирования событий с помощью Winston.
+- **`prisma`** — используется для взаимодействия с базой данных SQLite.
 
-### Prerequisites
+### Клиентская часть (React, Redux Toolkit)
 
-- Node.js
-- npm or yarn
+- **`src/app`** — настройка API и хранилища Redux.
+  - `store.js` — настройка хранилища Redux.
+  - `api.js` — базовая настройка API с RTK Query.
+- **`src/components`** — компоненты пользовательского интерфейса.
+  - **`cart`** — компоненты для работы с корзиной.
+  - **`header`** — компонент для отображения шапки сайта.
+  - **`pagination`** — компонент для пагинации товаров.
+- **`src/pages`** — страницы для рендеринга, такие как корзина, профиль, управление товарами.
+- **`src/features`** — Redux slices для управления аутентификацией, товарами, заказами и корзиной.
+- **`src/ui`** — компоненты для обработки форм (ввод данных, загрузка файлов).
 
-### Installation
+## Технологии
 
-1. Clone the repository:
+- **Frontend**:
+  - React с использованием Redux Toolkit для управления состоянием и RTK Query для работы с API.
+  - React-Bootstrap для создания адаптивного пользовательского интерфейса.
+  - React Router для маршрутизации страниц.
+  - React-toastify для уведомлений пользователя.
 
-   ```sh
-   git clone https://github.com/yourusername/data-management-app.git
-   cd data-management-app
-   ```
+- **Backend**:
+  - Node.js с использованием Express для создания RESTful API.
+  - Prisma ORM для управления данными.
+  - JWT (JSON Web Tokens) для аутентификации и авторизации пользователей.
+  - Multer для загрузки файлов (изображений товаров).
+  - Winston для логирования ошибок и событий.
 
-2. Install dependencies:
-   ```sh
-   npm install
-   # or
-   yarn install
-   ```
+- **База данных**:
+  - SQLite с использованием Prisma для управления данными пользователей, продуктов, заказов и корзины.
 
-### Running the Application
+## Установка
 
-To start the development server:
+### Предварительные требования
 
-```sh
-npm start
-# or
-yarn start
-```
+- Node.js (v14+)
+- npm или yarn
+
+### Установка зависимостей
+
+1. Клонируйте репозиторий:
+   git clone https://github.com/yourusername/e-commerce-app.git
+   cd e-commerce-app
+2. Установите зависимости:
+  npm install
+  # или
+  yarn install
+
+
